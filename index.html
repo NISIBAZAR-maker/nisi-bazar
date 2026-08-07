@@ -1,864 +1,865 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NISI BAZAR</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    :root {
-      --bg-color: #0b0710;
-      --card-bg: #15101a;
-      --accent: #ff007f;
-      --accent-hover: #e0006f;
-      --text-main: #ffffff;
-      --text-muted: #a098ae;
-      --border-color: #261b30;
-      --star-color: #ffb703;
-      --success: #2ec4b6;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NISI BAZAR</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+--bg-color: #0b0710;
+--card-bg: #15101a;
+--accent: #ff007f;
+--accent-hover: #e0006f;
+--text-main: #ffffff;
+--text-muted: #a098ae;
+--border-color: #261b30;
+--star-color: #ffb703;
+--success: #2ec4b6;
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    }
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
 
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      padding-bottom: 70px;
-    }
+body {
+background-color: var(--bg-color);
+color: var(--text-main);
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+padding-bottom: 70px;
+}
 
-    /* Top Bar */
-    .top-bar {
-      background: #000000;
-      color: var(--text-muted);
-      font-size: 11px;
-      padding: 6px 0;
-      overflow: hidden;
-      white-space: nowrap;
-      border-bottom: 1px solid var(--border-color);
-    }
-    .marquee {
-      display: inline-block;
-      animation: scroll 20s linear infinite;
-    }
-    @keyframes scroll {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
+/* Top Bar */
+.top-bar {
+background: #000000;
+color: var(--text-muted);
+font-size: 11px;
+padding: 6px 0;
+overflow: hidden;
+white-space: nowrap;
+border-bottom: 1px solid var(--border-color);
+}
+.marquee {
+display: inline-block;
+animation: scroll 20s linear infinite;
+}
+@keyframes scroll {
+0% { transform: translateX(100%); }
+100% { transform: translateX(-100%); }
+}
 
-    /* Header */
-    header {
-      background-color: var(--card-bg);
-      padding: 12px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border-color);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
+/* Header */
+header {
+background-color: var(--card-bg);
+padding: 12px 20px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+border-bottom: 1px solid var(--border-color);
+position: sticky;
+top: 0;
+z-index: 100;
+}
 
-    .brand-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-    .brand-icon {
-      color: var(--accent);
-      font-size: 22px;
-    }
-    .brand-text h1 {
-      color: var(--accent);
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: 1px;
-    }
-    .brand-text p {
-      color: var(--text-muted);
-      font-size: 8px;
-      letter-spacing: 1.5px;
-    }
+.brand-logo {
+display: flex;
+align-items: center;
+gap: 10px;
+text-decoration: none;
+}
+.brand-icon {
+color: var(--accent);
+font-size: 22px;
+}
+.brand-text h1 {
+color: var(--accent);
+font-size: 18px;
+font-weight: 800;
+letter-spacing: 1px;
+}
+.brand-text p {
+color: var(--text-muted);
+font-size: 8px;
+letter-spacing: 1.5px;
+}
 
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+.header-right {
+display: flex;
+align-items: center;
+gap: 12px;
+}
 
-    .btn-review-trigger {
-      background: rgba(255, 0, 127, 0.1);
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
+.btn-review-trigger {
+background: rgba(255, 0, 127, 0.1);
+color: var(--accent);
+border: 1px solid var(--accent);
+padding: 6px 12px;
+border-radius: 20px;
+font-size: 12px;
+font-weight: 600;
+cursor: pointer;
+display: flex;
+align-items: center;
+gap: 5px;
+}
 
-    .cart-trigger {
-      background: var(--accent);
-      color: #fff;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      cursor: pointer;
-    }
-    .cart-count {
-      position: absolute;
-      top: -4px;
-      right: -4px;
-      background: #fff;
-      color: var(--accent);
-      font-size: 10px;
-      font-weight: bold;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+.cart-trigger {
+background: var(--accent);
+color: #fff;
+width: 38px;
+height: 38px;
+border-radius: 50%;
+display: flex;
+justify-content: center;
+align-items: center;
+position: relative;
+cursor: pointer;
+}
+.cart-count {
+position: absolute;
+top: -4px;
+right: -4px;
+background: #fff;
+color: var(--accent);
+font-size: 10px;
+font-weight: bold;
+width: 18px;
+height: 18px;
+border-radius: 50%;
+display: flex;
+justify-content: center;
+align-items: center;
+}
 
-    .section-header {
-      padding: 15px 20px 5px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .section-header h2 {
-      font-size: 16px;
-      font-weight: 700;
-    }
-    .section-header i {
-      color: var(--accent);
-    }
+.section-header {
+padding: 15px 20px 5px;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.section-header h2 {
+font-size: 16px;
+font-weight: 700;
+}
+.section-header i {
+color: var(--accent);
+}
 
-    /* Grid Layout */
-    .products-container {
-      padding: 15px;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 15px;
-    }
+/* Grid Layout */
+.products-container {
+padding: 15px;
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+gap: 15px;
+}
 
-    .product-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      position: relative;
-    }
+.product-card {
+background: var(--card-bg);
+border: 1px solid var(--border-color);
+border-radius: 12px;
+padding: 12px;
+display: flex;
+flex-direction: column;
+gap: 10px;
+position: relative;
+}
 
-    .img-container {
-      width: 100%;
-      height: 220px;
-      background: #000;
-      border-radius: 8px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .product-img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      padding: 5px;
-    }
+.img-container {
+width: 100%;
+height: 220px;
+background: #000;
+border-radius: 8px;
+position: relative;
+overflow: hidden;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.product-img {
+width: 100%;
+height: 100%;
+object-fit: contain;
+padding: 5px;
+}
 
-    .video-tag {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      background: rgba(0, 0, 0, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff;
-      font-size: 10px;
-      padding: 4px 8px;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-    }
-    .video-tag i {
-      color: var(--accent);
-      font-size: 8px;
-    }
+.video-tag {
+position: absolute;
+top: 8px;
+right: 8px;
+background: rgba(0, 0, 0, 0.75);
+border: 1px solid rgba(255, 255, 255, 0.2);
+color: #fff;
+font-size: 10px;
+padding: 4px 8px;
+border-radius: 4px;
+display: flex;
+align-items: center;
+gap: 4px;
+cursor: pointer;
+}
+.video-tag i {
+color: var(--accent);
+font-size: 8px;
+}
 
-    .product-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-main);
-      line-height: 1.3;
-    }
+.product-title {
+font-size: 14px;
+font-weight: 600;
+color: var(--text-main);
+line-height: 1.3;
+}
 
-    .price-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-    }
-    .price {
-      color: var(--accent);
-      font-size: 18px;
-      font-weight: 700;
-    }
-    .old-price {
-      color: var(--text-muted);
-      font-size: 12px;
-      text-decoration: line-through;
-    }
+.price-row {
+display: flex;
+align-items: baseline;
+gap: 8px;
+}
+.price {
+color: var(--accent);
+font-size: 18px;
+font-weight: 700;
+}
+.old-price {
+color: var(--text-muted);
+font-size: 12px;
+text-decoration: line-through;
+}
 
-    .meta-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-    .rating {
-      color: var(--star-color);
-      display: flex;
-      align-items: center;
-      gap: 3px;
-    }
+.meta-row {
+display: flex;
+justify-content: space-between;
+font-size: 11px;
+color: var(--text-muted);
+}
+.rating {
+color: var(--star-color);
+display: flex;
+align-items: center;
+gap: 3px;
+}
 
-    .card-actions {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-    }
-    .btn-action {
-      background: #1f1826;
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 6px;
-      border-radius: 6px;
-      font-size: 11px;
-      cursor: pointer;
-    }
+.card-actions {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 6px;
+}
+.btn-action {
+background: #1f1826;
+border: 1px solid var(--border-color);
+color: var(--text-main);
+padding: 6px;
+border-radius: 6px;
+font-size: 11px;
+cursor: pointer;
+}
 
-    .btn-add-cart {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      padding: 10px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-      width: 100%;
-    }
+.btn-add-cart {
+background: var(--accent);
+color: #fff;
+border: none;
+padding: 10px;
+border-radius: 6px;
+font-weight: 700;
+font-size: 13px;
+cursor: pointer;
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 6px;
+width: 100%;
+}
 
-    /* Fixed Bottom Bar */
-    .bottom-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: var(--accent);
-      padding: 12px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 99;
-      cursor: pointer;
-    }
-    .cart-summary {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: #fff;
-      font-weight: 700;
-      font-size: 14px;
-    }
-    .total-price {
-      background: #fff;
-      color: var(--accent);
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 800;
-    }
+/* Fixed Bottom Bar */
+.bottom-bar {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background: var(--accent);
+padding: 12px 20px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+z-index: 99;
+cursor: pointer;
+}
+.cart-summary {
+display: flex;
+align-items: center;
+gap: 10px;
+color: #fff;
+font-weight: 700;
+font-size: 14px;
+}
+.total-price {
+background: #fff;
+color: var(--accent);
+padding: 4px 12px;
+border-radius: 12px;
+font-size: 12px;
+font-weight: 800;
+}
 
-    /* Modals */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-      padding: 15px;
-    }
-    .modal.active {
-      display: flex;
-    }
-    .modal-content {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      width: 100%;
-      max-width: 480px;
-      max-height: 85vh;
-      overflow-y: auto;
-      padding: 20px;
-      position: relative;
-    }
-    .close-modal {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      color: var(--text-muted);
-      font-size: 20px;
-      cursor: pointer;
-    }
-    .modal-title {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 15px;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+/* Modals */
+.modal {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.85);
+z-index: 1000;
+justify-content: center;
+align-items: center;
+padding: 15px;
+}
+.modal.active {
+display: flex;
+}
+.modal-content {
+background: var(--card-bg);
+border: 1px solid var(--border-color);
+border-radius: 12px;
+width: 100%;
+max-width: 480px;
+max-height: 85vh;
+overflow-y: auto;
+padding: 20px;
+position: relative;
+}
+.close-modal {
+position: absolute;
+top: 15px;
+right: 15px;
+color: var(--text-muted);
+font-size: 20px;
+cursor: pointer;
+}
+.modal-title {
+font-size: 16px;
+font-weight: 700;
+margin-bottom: 15px;
+color: var(--accent);
+display: flex;
+align-items: center;
+gap: 8px;
+}
 
-    /* Checkout Form Elements */
-    .checkout-form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 15px;
-    }
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .form-group label {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-    .form-group input, .form-group select {
-      background: #0b0710;
-      border: 1px solid var(--border-color);
-      color: #fff;
-      padding: 10px;
-      border-radius: 6px;
-      font-size: 13px;
-      outline: none;
-    }
-    .form-group input:focus, .form-group select:focus {
-      border-color: var(--accent);
-    }
+/* Checkout Form Elements */
+.checkout-form {
+display: flex;
+flex-direction: column;
+gap: 12px;
+margin-top: 15px;
+}
+.form-group {
+display: flex;
+flex-direction: column;
+gap: 5px;
+}
+.form-group label {
+font-size: 12px;
+color: var(--text-muted);
+}
+.form-group input, .form-group select {
+background: #0b0710;
+border: 1px solid var(--border-color);
+color: #fff;
+padding: 10px;
+border-radius: 6px;
+font-size: 13px;
+outline: none;
+}
+.form-group input:focus, .form-group select:focus {
+border-color: var(--accent);
+}
 
-    /* Reviews Section Styling */
-    .review-card {
-      background: #100b14;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 12px;
-    }
-    .review-user {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .user-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--accent);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 13px;
-    }
-    .user-name {
-      font-size: 13px;
-      font-weight: 600;
-    }
-    .verified-badge {
-      font-size: 10px;
-      color: var(--success);
-      display: flex;
-      align-items: center;
-      gap: 2px;
-    }
-    .review-stars {
-      color: var(--star-color);
-      font-size: 11px;
-    }
-    .review-comment {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.4;
-      margin-bottom: 8px;
-    }
-    .review-images-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 8px;
-      margin-top: 8px;
-    }
-    .review-img {
-      width: 100%;
-      height: 110px;
-      object-fit: cover;
-      border-radius: 6px;
-      border: 1px solid var(--border-color);
-    }
-    .review-date {
-      font-size: 10px;
-      color: #665d73;
-      margin-top: 6px;
-    }
+/* Reviews Section Styling */
+.review-card {
+background: #100b14;
+border: 1px solid var(--border-color);
+border-radius: 8px;
+padding: 12px;
+margin-bottom: 12px;
+}
+.review-user {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 6px;
+}
+.user-info {
+display: flex;
+align-items: center;
+gap: 8px;
+}
+.user-avatar {
+width: 32px;
+height: 32px;
+border-radius: 50%;
+background: var(--accent);
+color: #fff;
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: bold;
+font-size: 13px;
+}
+.user-name {
+font-size: 13px;
+font-weight: 600;
+}
+.verified-badge {
+font-size: 10px;
+color: var(--success);
+display: flex;
+align-items: center;
+gap: 2px;
+}
+.review-stars {
+color: var(--star-color);
+font-size: 11px;
+}
+.review-comment {
+font-size: 12px;
+color: var(--text-muted);
+line-height: 1.4;
+margin-bottom: 8px;
+}
+.review-images-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+gap: 8px;
+margin-top: 8px;
+}
+.review-img {
+width: 100%;
+max-height: 250px;
+object-fit: contain;
+background: #000;
+border-radius: 6px;
+border: 1px solid var(--border-color);
+}
+.review-date {
+font-size: 10px;
+color: #665d73;
+margin-top: 6px;
+}
 
-    @media (max-width: 600px) {
-      header { padding: 10px 15px; }
-      .brand-text h1 { font-size: 16px; }
-      .brand-text p { font-size: 7px; }
-      .img-container { height: 200px; }
-    }
-  </style>
+@media (max-width: 600px) {
+header { padding: 10px 15px; }
+.brand-text h1 { font-size: 16px; }
+.brand-text p { font-size: 7px; }
+.img-container { height: 200px; }
+}
+</style>
 </head>
 <body>
 
-  <div class="top-bar">
-    <div class="marquee">🔒 100% Discrete Shipping • Private Packaging • Safe Delivery</div>
-  </div>
+<div class="top-bar">
+<div class="marquee">🔒 100% Discrete Shipping • Private Packaging • Safe Delivery</div>
+</div>
 
-  <header>
-    <a href="#" class="brand-logo">
-      <i class="fa-solid fa-bag-shopping brand-icon"></i>
-      <div class="brand-text">
-        <h1>NISI BAZAR</h1>
-        <p>PRIVATE • DISCREET • TRUSTED</p>
-      </div>
-    </a>
-    <div class="header-right">
-      <button class="btn-review-trigger" onclick="openReviewsModal('all')">
-        <i class="fa-solid fa-star"></i> Reviews
-      </button>
-      <div class="cart-trigger" onclick="openModal('cartModal')">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <span class="cart-count" id="cartCount">0</span>
-      </div>
-    </div>
-  </header>
+<header>
+<a href="#" class="brand-logo">
+<i class="fa-solid fa-bag-shopping brand-icon"></i>
+<div class="brand-text">
+<h1>NISI BAZAR</h1>
+<p>PRIVATE • DISCREET • TRUSTED</p>
+</div>
+</a>
+<div class="header-right">
+<button class="btn-review-trigger" onclick="openReviewsModal('all')">
+<i class="fa-solid fa-star"></i> Reviews
+</button>
+<div class="cart-trigger" onclick="openModal('cartModal')">
+<i class="fa-solid fa-cart-shopping"></i>
+<span class="cart-count" id="cartCount">0</span>
+</div>
+</div>
+</header>
 
-  <div class="section-header">
-    <i class="fa-solid fa-fire"></i>
-    <h2>Featured Products</h2>
-  </div>
+<div class="section-header">
+<i class="fa-solid fa-fire"></i>
+<h2>Featured Products</h2>
+</div>
 
-  <main class="products-container">
+<main class="products-container">
 
-    <!-- PRODUCT 1 -->
-    <div class="product-card">
-      <div class="img-container">
-        <img src="https://i.ibb.co.com/rKMR8H4W/Gemini-Generated-Image-hmnc5fhmnc5fhmnc-clean.png" alt="Premium Eagle Pocket Knife" class="product-img">
-        <div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-      </div>
-      <div class="product-title">Premium Eagle Pocket Knife</div>
-      <div class="price-row">
-        <span class="price">$6.99</span>
-        <span class="old-price">$10.99</span>
-      </div>
-      <div class="meta-row">
-        <span>Sold: 143</span>
-        <span class="rating"><i class="fa-solid fa-star"></i> 4.8</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action" onclick="openModal('infoModal')">Info</button>
-        <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openReviewsModal(1)">Review</button>
-      </div>
-      <button class="btn-add-cart" onclick="addToCart('Premium Eagle Pocket Knife', 6.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-    </div>
+<!-- PRODUCT 1 -->
+<div class="product-card">
+<div class="img-container">
+<img src="https://i.ibb.co.com/rKMR8H4W/Gemini-Generated-Image-hmnc5fhmnc5fhmnc-clean.png" alt="Premium Eagle Pocket Knife" class="product-img">
+<div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
+</div>
+<div class="product-title">Premium Eagle Pocket Knife</div>
+<div class="price-row">
+<span class="price">$6.99</span>
+<span class="old-price">$10.99</span>
+</div>
+<div class="meta-row">
+<span>Sold: 143</span>
+<span class="rating"><i class="fa-solid fa-star"></i> 4.8</span>
+</div>
+<div class="card-actions">
+<button class="btn-action" onclick="openModal('infoModal')">Info</button>
+<button class="btn-action" onclick="openModal('chatModal')">Chat</button>
+<button class="btn-action" onclick="openReviewsModal(1)">Review</button>
+</div>
+<button class="btn-add-cart" onclick="addToCart('Premium Eagle Pocket Knife', 6.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+</div>
 
-    <!-- PRODUCT 2 -->
-    <div class="product-card">
-      <div class="img-container">
-        <img src="https://via.placeholder.com/300x200" alt="Product 2" class="product-img">
-        <div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-      </div>
-      <div class="product-title">Product Name 2</div>
-      <div class="price-row">
-        <span class="price">$9.99</span>
-        <span class="old-price">$15.00</span>
-      </div>
-      <div class="meta-row">
-        <span>Sold: 50</span>
-        <span class="rating"><i class="fa-solid fa-star"></i> 4.5</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action" onclick="openModal('infoModal')">Info</button>
-        <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openReviewsModal(2)">Review</button>
-      </div>
-      <button class="btn-add-cart" onclick="addToCart('Product Name 2', 9.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-    </div>
+<!-- PRODUCT 2 -->
+<div class="product-card">
+<div class="img-container">
+<img src="https://via.placeholder.com/300x200" alt="Product 2" class="product-img">
+<div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
+</div>
+<div class="product-title">Product Name 2</div>
+<div class="price-row">
+<span class="price">$9.99</span>
+<span class="old-price">$15.00</span>
+</div>
+<div class="meta-row">
+<span>Sold: 50</span>
+<span class="rating"><i class="fa-solid fa-star"></i> 4.5</span>
+</div>
+<div class="card-actions">
+<button class="btn-action" onclick="openModal('infoModal')">Info</button>
+<button class="btn-action" onclick="openModal('chatModal')">Chat</button>
+<button class="btn-action" onclick="openReviewsModal(2)">Review</button>
+</div>
+<button class="btn-add-cart" onclick="addToCart('Product Name 2', 9.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+</div>
 
-    <!-- PRODUCT 3 -->
-    <div class="product-card">
-      <div class="img-container">
-        <img src="https://via.placeholder.com/300x200" alt="Product 3" class="product-img">
-        <div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-      </div>
-      <div class="product-title">Product Name 3</div>
-      <div class="price-row">
-        <span class="price">$12.99</span>
-        <span class="old-price">$18.00</span>
-      </div>
-      <div class="meta-row">
-        <span>Sold: 30</span>
-        <span class="rating"><i class="fa-solid fa-star"></i> 4.7</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action" onclick="openModal('infoModal')">Info</button>
-        <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openReviewsModal(3)">Review</button>
-      </div>
-      <button class="btn-add-cart" onclick="addToCart('Product Name 3', 12.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-    </div>
+<!-- PRODUCT 3 -->
+<div class="product-card">
+<div class="img-container">
+<img src="https://via.placeholder.com/300x200" alt="Product 3" class="product-img">
+<div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
+</div>
+<div class="product-title">Product Name 3</div>
+<div class="price-row">
+<span class="price">$12.99</span>
+<span class="old-price">$18.00</span>
+</div>
+<div class="meta-row">
+<span>Sold: 30</span>
+<span class="rating"><i class="fa-solid fa-star"></i> 4.7</span>
+</div>
+<div class="card-actions">
+<button class="btn-action" onclick="openModal('infoModal')">Info</button>
+<button class="btn-action" onclick="openModal('chatModal')">Chat</button>
+<button class="btn-action" onclick="openReviewsModal(3)">Review</button>
+</div>
+<button class="btn-add-cart" onclick="addToCart('Product Name 3', 12.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+</div>
 
-    <!-- PRODUCT 4 -->
-    <div class="product-card">
-      <div class="img-container">
-        <img src="https://via.placeholder.com/300x200" alt="Product 4" class="product-img">
-        <div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-      </div>
-      <div class="product-title">Product Name 4</div>
-      <div class="price-row">
-        <span class="price">$15.00</span>
-        <span class="old-price">$22.00</span>
-      </div>
-      <div class="meta-row">
-        <span>Sold: 80</span>
-        <span class="rating"><i class="fa-solid fa-star"></i> 4.9</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action" onclick="openModal('infoModal')">Info</button>
-        <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openReviewsModal(4)">Review</button>
-      </div>
-      <button class="btn-add-cart" onclick="addToCart('Product Name 4', 15.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-    </div>
+<!-- PRODUCT 4 -->
+<div class="product-card">
+<div class="img-container">
+<img src="https://via.placeholder.com/300x200" alt="Product 4" class="product-img">
+<div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
+</div>
+<div class="product-title">Product Name 4</div>
+<div class="price-row">
+<span class="price">$15.00</span>
+<span class="old-price">$22.00</span>
+</div>
+<div class="meta-row">
+<span>Sold: 80</span>
+<span class="rating"><i class="fa-solid fa-star"></i> 4.9</span>
+</div>
+<div class="card-actions">
+<button class="btn-action" onclick="openModal('infoModal')">Info</button>
+<button class="btn-action" onclick="openModal('chatModal')">Chat</button>
+<button class="btn-action" onclick="openReviewsModal(4)">Review</button>
+</div>
+<button class="btn-add-cart" onclick="addToCart('Product Name 4', 15.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+</div>
 
-    <!-- PRODUCT 5 -->
-    <div class="product-card">
-      <div class="img-container">
-        <img src="https://via.placeholder.com/300x200" alt="Product 5" class="product-img">
-        <div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-      </div>
-      <div class="product-title">Product Name 5</div>
-      <div class="price-row">
-        <span class="price">$8.00</span>
-        <span class="old-price">$12.00</span>
-      </div>
-      <div class="meta-row">
-        <span>Sold: 65</span>
-        <span class="rating"><i class="fa-solid fa-star"></i> 4.6</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action" onclick="openModal('infoModal')">Info</button>
-        <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openReviewsModal(5)">Review</button>
-      </div>
-      <button class="btn-add-cart" onclick="addToCart('Product Name 5', 8.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-    </div>
+<!-- PRODUCT 5 -->
+<div class="product-card">
+<div class="img-container">
+<img src="https://via.placeholder.com/300x200" alt="Product 5" class="product-img">
+<div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
+</div>
+<div class="product-title">Product Name 5</div>
+<div class="price-row">
+<span class="price">$8.00</span>
+<span class="old-price">$12.00</span>
+</div>
+<div class="meta-row">
+<span>Sold: 65</span>
+<span class="rating"><i class="fa-solid fa-star"></i> 4.6</span>
+</div>
+<div class="card-actions">
+<button class="btn-action" onclick="openModal('infoModal')">Info</button>
+<button class="btn-action" onclick="openModal('chatModal')">Chat</button>
+<button class="btn-action" onclick="openReviewsModal(5)">Review</button>
+</div>
+<button class="btn-add-cart" onclick="addToCart('Product Name 5', 8.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+</div>
 
-    <!-- PRODUCT 6 TO 8 -->
-    <div class="product-card">
-      <div class="img-container"><img src="https://via.placeholder.com/300x200" class="product-img"></div>
-      <div class="product-title">Product Name 6</div>
-      <div class="price-row"><span class="price">$11.50</span></div>
-      <button class="btn-add-cart" onclick="addToCart('Product Name 6', 11.50)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-    </div>
+<!-- PRODUCT 6 TO 8 -->
+<div class="product-card">
+<div class="img-container"><img src="https://via.placeholder.com/300x200" class="product-img"></div>
+<div class="product-title">Product Name 6</div>
+<div class="price-row"><span class="price">$11.50</span></div>
+<button class="btn-add-cart" onclick="addToCart('Product Name 6', 11.50)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+</div>
 
-    <div class="product-card">
-      <div class="img-container"><img src="https://via.placeholder.com/300x200" class="product-img"></div>
-      <div class="product-title">Product Name 7</div>
-      <div class="price-row"><span class="price">$14.00</span></div>
-      <button class="btn-add-cart" onclick="addToCart('Product Name 7', 14.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-    </div>
+<div class="product-card">
+<div class="img-container"><img src="https://via.placeholder.com/300x200" class="product-img"></div>
+<div class="product-title">Product Name 7</div>
+<div class="price-row"><span class="price">$14.00</span></div>
+<button class="btn-add-cart" onclick="addToCart('Product Name 7', 14.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+</div>
 
-    <div class="product-card">
-      <div class="img-container"><img src="https://via.placeholder.com/300x200" class="product-img"></div>
-      <div class="product-title">Product Name 8</div>
-      <div class="price-row"><span class="price">$19.99</span></div>
-      <button class="btn-add-cart" onclick="addToCart('Product Name 8', 19.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-    </div>
+<div class="product-card">
+<div class="img-container"><img src="https://via.placeholder.com/300x200" class="product-img"></div>
+<div class="product-title">Product Name 8</div>
+<div class="price-row"><span class="price">$19.99</span></div>
+<button class="btn-add-cart" onclick="addToCart('Product Name 8', 19.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+</div>
 
-  </main>
+</main>
 
-  <!-- Bottom Floating Bar -->
-  <div class="bottom-bar" onclick="openModal('cartModal')">
-    <div class="cart-summary">
-      <i class="fa-solid fa-basket-shopping"></i>
-      <span>View Cart / Order</span>
-    </div>
-    <div class="total-price" id="totalPrice">$0.00</div>
-  </div>
+<!-- Bottom Floating Bar -->
+<div class="bottom-bar" onclick="openModal('cartModal')">
+<div class="cart-summary">
+<i class="fa-solid fa-basket-shopping"></i>
+<span>View Cart / Order</span>
+</div>
+<div class="total-price" id="totalPrice">$0.00</div>
+</div>
 
-  <!-- MODALS -->
+<!-- MODALS -->
 
-  <!-- CART & CHECKOUT MODAL -->
-  <div class="modal" id="cartModal">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
-      <div class="modal-title"><i class="fa-solid fa-cart-shopping"></i> Complete Your Order</div>
-      
-      <div id="cartItemsList" style="font-size: 13px; background: #0b0710; padding: 10px; border-radius: 8px; margin-bottom: 12px;">
-        No items in cart yet.
-      </div>
+<!-- CART & CHECKOUT MODAL -->
+<div class="modal" id="cartModal">
+<div class="modal-content">
+<span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
+<div class="modal-title"><i class="fa-solid fa-cart-shopping"></i> Complete Your Order</div>
 
-      <!-- Checkout Form -->
-      <form class="checkout-form" onsubmit="confirmOrder(event)">
-        <div class="form-group">
-          <label><i class="fa-solid fa-user"></i> Your Name *</label>
-          <input type="text" placeholder="Enter full name" required>
-        </div>
-        <div class="form-group">
-          <label><i class="fa-solid fa-phone"></i> Mobile Number *</label>
-          <input type="tel" placeholder="017XXXXXXXX" required>
-        </div>
-        <div class="form-group">
-          <label><i class="fa-solid fa-location-dot"></i> Full Address *</label>
-          <input type="text" placeholder="House/Village, Thana, District" required>
-        </div>
-        <div class="form-group">
-          <label><i class="fa-solid fa-truck"></i> Delivery Area</label>
-          <select>
-            <option>Inside Dhaka ($2.00)</option>
-            <option>Outside Dhaka ($4.00)</option>
-          </select>
-        </div>
-        <button type="submit" class="btn-add-cart" style="padding: 12px; margin-top: 5px;">
-          <i class="fa-solid fa-check-circle"></i> Confirm Cash on Delivery Order
-        </button>
-      </form>
-    </div>
-  </div>
+<div id="cartItemsList" style="font-size: 13px; background: #0b0710; padding: 10px; border-radius: 8px; margin-bottom: 12px;">
+No items in cart yet.
+</div>
 
-  <!-- REVIEWS MODAL -->
-  <div class="modal" id="reviewsModal">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeModal('reviewsModal')">&times;</span>
-      <div class="modal-title"><i class="fa-solid fa-star"></i> Customer Reviews (100% Real)</div>
-      
-      <div id="reviewCardsContainer">
-        <!-- Dynamic Reviews Will Render Here -->
-      </div>
-    </div>
-  </div>
+<!-- Checkout Form -->
+<form class="checkout-form" onsubmit="confirmOrder(event)">
+<div class="form-group">
+<label><i class="fa-solid fa-user"></i> Your Name *</label>
+<input type="text" placeholder="Enter full name" required>
+</div>
+<div class="form-group">
+<label><i class="fa-solid fa-phone"></i> Mobile Number *</label>
+<input type="tel" placeholder="017XXXXXXXX" required>
+</div>
+<div class="form-group">
+<label><i class="fa-solid fa-location-dot"></i> Full Address *</label>
+<input type="text" placeholder="House/Village, Thana, District" required>
+</div>
+<div class="form-group">
+<label><i class="fa-solid fa-truck"></i> Delivery Area</label>
+<select>
+<option>Inside Dhaka ($2.00)</option>
+<option>Outside Dhaka ($4.00)</option>
+</select>
+</div>
+<button type="submit" class="btn-add-cart" style="padding: 12px; margin-top: 5px;">
+<i class="fa-solid fa-check-circle"></i> Confirm Cash on Delivery Order
+</button>
+</form>
+</div>
+</div>
 
-  <!-- OTHER MODALS -->
-  <div class="modal" id="infoModal">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeModal('infoModal')">&times;</span>
-      <div class="modal-title"><i class="fa-solid fa-circle-info"></i> Product Info</div>
-      <p style="font-size: 13px; color: var(--text-muted);">High quality items with 100% discrete and private packaging.</p>
-    </div>
-  </div>
+<!-- REVIEWS MODAL -->
+<div class="modal" id="reviewsModal">
+<div class="modal-content">
+<span class="close-modal" onclick="closeModal('reviewsModal')">&times;</span>
+<div class="modal-title"><i class="fa-solid fa-star"></i> Customer Reviews (100% Real)</div>
 
-  <div class="modal" id="chatModal">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeModal('chatModal')">&times;</span>
-      <div class="modal-title"><i class="fa-solid fa-comments"></i> Customer Support</div>
-      <button class="btn-add-cart" onclick="window.open('https://wa.me/', '_blank')"><i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp</button>
-    </div>
-  </div>
+<div id="reviewCardsContainer">
+<!-- Dynamic Reviews Will Render Here -->
+</div>
+</div>
+</div>
 
-  <div class="modal" id="videoModal">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeModal('videoModal')">&times;</span>
-      <div class="modal-title"><i class="fa-solid fa-play"></i> Product Video</div>
-      <p style="font-size: 13px; color: var(--text-muted);">Video preview coming soon.</p>
-    </div>
-  </div>
+<!-- OTHER MODALS -->
+<div class="modal" id="infoModal">
+<div class="modal-content">
+<span class="close-modal" onclick="closeModal('infoModal')">&times;</span>
+<div class="modal-title"><i class="fa-solid fa-circle-info"></i> Product Info</div>
+<p style="font-size: 13px; color: var(--text-muted);">High quality items with 100% discrete and private packaging.</p>
+</div>
+</div>
 
-  <script>
-    let cart = [];
-    let total = 0;
+<div class="modal" id="chatModal">
+<div class="modal-content">
+<span class="close-modal" onclick="closeModal('chatModal')">&times;</span>
+<div class="modal-title"><i class="fa-solid fa-comments"></i> Customer Support</div>
+<button class="btn-add-cart" onclick="window.open('https://wa.me/', '_blank')"><i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp</button>
+</div>
+</div>
 
-    // Review Database linked to Product ID
-    const reviewsData = [
-      {
-        productId: 1, // Premium Eagle Pocket Knife Reviews
-        reviews: [
-          {
-            name: "Sabbir Hossain",
-            avatar: "S",
-            avatarBg: "#ff007f",
-            rating: "★★★★★",
-            comment: "ভাই চাকুটা জাস্ট অসাম! এক হাতেই ওপেন করা যায়, ব্লেড অনেক শ ধারালো আর ওয়েটটাও হাতে একদম পারফেক্ট লাগে। থ্যাঙ্কস নিশি বাজার!",
-            images: ["https://i.ibb.co.com/Y4pGht2G/Screenshot-2026-08-08-015709.png"],
-            date: "1 day ago"
-          },
-          {
-            name: "Imtiaz Ahmed",
-            avatar: "I",
-            avatarBg: "#00b4d8",
-            rating: "★★★★★",
-            comment: "প্যাকেজিং এত গোপনীয় ছিল যে পার্সেল নেওয়ার সময় কেউ বুঝতেই পারেনি ভেতরে কি আছে। চাকুটার ডিজাইন একদম রিয়েল ছবিটার মতোই প্রিমিয়াম।",
-            images: [
-              "https://i.ibb.co.com/9kK5bCD8/Screenshot-2026-08-08-015949.png",
-              "https://i.ibb.co.com/GQdjWbF0/Screenshot-2026-08-08-020006.png"
-            ],
-            date: "3 days ago"
-          },
-          {
-            name: "Tanvir Hasan",
-            avatar: "T",
-            avatarBg: "#7209b7",
-            rating: "★★★★★",
-            comment: "খুবই ফাস্ট ডেলিভারি পাইছি। প্রোডাক্ট মেটাল কোয়ালিটি অনেক শক্তপোক্ত, পকেটে ক্যারি করাও সহজ। ১০০% রিকমেন্ডেড!",
-            images: ["https://i.ibb.co.com/QjM2p5J7/Screenshot-2026-08-08-020253.png"],
-            date: "5 days ago"
-          }
-        ]
-      },
-      {
-        productId: 2,
-        reviews: [
-          {
-            name: "Mahbub Hasan",
-            avatar: "M",
-            avatarBg: "#38b000",
-            rating: "★★★★☆",
-            comment: "দাম হিসেবে জিনিস অনেক প্রিমিয়াম। সার্ভিস ভালো ছিল।",
-            images: [],
-            date: "1 week ago"
-          }
-        ]
-      }
-    ];
+<div class="modal" id="videoModal">
+<div class="modal-content">
+<span class="close-modal" onclick="closeModal('videoModal')">&times;</span>
+<div class="modal-title"><i class="fa-solid fa-play"></i> Product Video</div>
+<p style="font-size: 13px; color: var(--text-muted);">Video preview coming soon.</p>
+</div>
+</div>
 
-    function openModal(id) { document.getElementById(id).classList.add('active'); }
-    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+<script>
+let cart = [];
+let total = 0;
 
-    function openReviewsModal(productId) {
-      const container = document.getElementById('reviewCardsContainer');
-      container.innerHTML = '';
+// Review Database linked to Product ID
+const reviewsData = [
+{
+productId: 1, // Premium Eagle Pocket Knife Reviews
+reviews: [
+{
+name: "Sabbir Hossain",
+avatar: "S",
+avatarBg: "#ff007f",
+rating: "★★★★★",
+comment: "ভাই চাকুটা জাস্ট অসাম! এক হাতেই ওপেন করা যায়, ব্লেড অনেক শ ধারালো আর ওয়েটটাও হাতে একদম পারফেক্ট লাগে। থ্যাঙ্কস নিশি বাজার!",
+images: ["https://i.ibb.co.com/Y4pGht2G/Screenshot-2026-08-08-015709.png"],
+date: "1 day ago"
+},
+{
+name: "Imtiaz Ahmed",
+avatar: "I",
+avatarBg: "#00b4d8",
+rating: "★★★★★",
+comment: "প্যাকেজিং এত গোপনীয় ছিল যে পার্সেল নেওয়ার সময় কেউ বুঝতেই পারেনি ভেতরে কি আছে। চাকুটার ডিজাইন একদম রিয়েল ছবিটার মতোই প্রিমিয়াম।",
+images: [
+"https://i.ibb.co.com/9kK5bCD8/Screenshot-2026-08-08-015949.png",
+"https://i.ibb.co.com/GQdjWbF0/Screenshot-2026-08-08-020006.png"
+],
+date: "3 days ago"
+},
+{
+name: "Tanvir Hasan",
+avatar: "T",
+avatarBg: "#7209b7",
+rating: "★★★★★",
+comment: "খুবই ফাস্ট ডেলিভারি পাইছি। প্রোডাক্ট মেটাল কোয়ালিটি অনেক শক্তপোক্ত, পকেটে ক্যারি করাও সহজ। ১০০% রিকমেন্ডেড!",
+images: ["https://i.ibb.co.com/QjM2p5J7/Screenshot-2026-08-08-020253.png"],
+date: "5 days ago"
+}
+]
+},
+{
+productId: 2,
+reviews: [
+{
+name: "Mahbub Hasan",
+avatar: "M",
+avatarBg: "#38b000",
+rating: "★★★★☆",
+comment: "দাম হিসেবে জিনিস অনেক প্রিমিয়াম। সার্ভিস ভালো ছিল।",
+images: [],
+date: "1 week ago"
+}
+]
+}
+];
 
-      let listToRender = [];
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-      if (productId === 'all') {
-        // Collect all reviews from all products
-        reviewsData.forEach(p => listToRender.push(...p.reviews));
-      } else {
-        // Filter reviews for specific product
-        const prodReviews = reviewsData.find(p => p.productId === productId);
-        if (prodReviews) {
-          listToRender = prodReviews.reviews;
-        }
-      }
+function openReviewsModal(productId) {
+const container = document.getElementById('reviewCardsContainer');
+container.innerHTML = '';
 
-      if (listToRender.length === 0) {
-        container.innerHTML = '<p style="font-size:12px; color:var(--text-muted); text-align:center;">No reviews yet for this product.</p>';
-      } else {
-        listToRender.forEach(rev => {
-          let imgsHtml = '';
-          if (rev.images && rev.images.length > 0) {
-            imgsHtml = `<div class="review-images-grid">
-              ${rev.images.map(imgUrl => `<img src="${imgUrl}" class="review-img" alt="Customer Review Pic">`).join('')}
-            </div>`;
-          }
+let listToRender = [];
 
-          container.innerHTML += `
-            <div class="review-card">
-              <div class="review-user">
-                <div class="user-info">
-                  <div class="user-avatar" style="background:${rev.avatarBg}">${rev.avatar}</div>
-                  <div>
-                    <div class="user-name">${rev.name}</div>
-                    <div class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Buyer</div>
-                  </div>
-                </div>
-                <div class="review-stars">${rev.rating}</div>
-              </div>
-              <p class="review-comment">${rev.comment}</p>
-              ${imgsHtml}
-              <div class="review-date">${rev.date}</div>
-            </div>
-          `;
-        });
-      }
+if (productId === 'all') {
+// Collect all reviews from all products
+reviewsData.forEach(p => listToRender.push(...p.reviews));
+} else {
+// Filter reviews for specific product
+const prodReviews = reviewsData.find(p => p.productId === productId);
+if (prodReviews) {
+listToRender = prodReviews.reviews;
+}
+}
 
-      openModal('reviewsModal');
-    }
+if (listToRender.length === 0) {
+container.innerHTML = '<p style="font-size:12px; color:var(--text-muted); text-align:center;">No reviews yet for this product.</p>';
+} else {
+listToRender.forEach(rev => {
+let imgsHtml = '';
+if (rev.images && rev.images.length > 0) {
+imgsHtml = `<div class="review-images-grid">
+${rev.images.map(imgUrl => `<img src="${imgUrl}" class="review-img" alt="Customer Review Pic">`).join('')}
+</div>`;
+}
 
-    function addToCart(name, price) {
-      cart.push({ name, price });
-      total += price;
-      updateCartUI();
-      openModal('cartModal');
-    }
+container.innerHTML += `
+<div class="review-card">
+<div class="review-user">
+<div class="user-info">
+<div class="user-avatar" style="background:${rev.avatarBg}">${rev.avatar}</div>
+<div>
+<div class="user-name">${rev.name}</div>
+<div class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Buyer</div>
+</div>
+</div>
+<div class="review-stars">${rev.rating}</div>
+</div>
+<p class="review-comment">${rev.comment}</p>
+${imgsHtml}
+<div class="review-date">${rev.date}</div>
+</div>
+`;
+});
+}
 
-    function updateCartUI() {
-      document.getElementById('cartCount').innerText = cart.length;
-      document.getElementById('totalPrice').innerText = '$' + total.toFixed(2);
-      let cartList = document.getElementById('cartItemsList');
-      if (cart.length === 0) {
-        cartList.innerHTML = 'No items selected yet.';
-      } else {
-        cartList.innerHTML = cart.map(item => `
-          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-            <span>${item.name}</span>
-            <span style="color:var(--accent); font-weight:bold;">$${item.price}</span>
-          </div>
-        `).join('');
-      }
-    }
+openModal('reviewsModal');
+}
 
-    function confirmOrder(event) {
-      event.preventDefault();
-      alert('Order Placed Successfully! We will contact you shortly for confirmation.');
-      cart = [];
-      total = 0;
-      updateCartUI();
-      closeModal('cartModal');
-    }
-  </script>
+function addToCart(name, price) {
+cart.push({ name, price });
+total += price;
+updateCartUI();
+openModal('cartModal');
+}
+
+function updateCartUI() {
+document.getElementById('cartCount').innerText = cart.length;
+document.getElementById('totalPrice').innerText = '$' + total.toFixed(2);
+let cartList = document.getElementById('cartItemsList');
+if (cart.length === 0) {
+cartList.innerHTML = 'No items selected yet.';
+} else {
+cartList.innerHTML = cart.map(item => `
+<div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+<span>${item.name}</span>
+<span style="color:var(--accent); font-weight:bold;">$${item.price}</span>
+</div>
+`).join('');
+}
+}
+
+function confirmOrder(event) {
+event.preventDefault();
+alert('Order Placed Successfully! We will contact you shortly for confirmation.');
+cart = [];
+total = 0;
+updateCartUI();
+closeModal('cartModal');
+}
+</script>
 
 </body>
 </html>
