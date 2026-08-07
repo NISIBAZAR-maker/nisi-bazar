@@ -1,134 +1,184 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nisi Bazar - Telegram Mini App</title>
+    <title>NISI BAZAR - Telegram Mini App</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            pink: '#ff0055',
+                            darkpink: '#d60046',
+                            bg: '#0f0f12',
+                            card: '#18181c',
+                            cardhover: '#222228',
+                            neon: '#ff1493'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #0f0f12;
+            color: #f1f1f1;
+        }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .pink-glow {
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
+        }
+        .pink-glow-lg {
+            box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
+        }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 pb-24">
+<body class="pb-28 text-gray-200">
 
     <!-- Header / Navbar -->
-    <header class="sticky top-0 bg-blue-600 text-white shadow-md z-30 px-4 py-3 flex justify-between items-center">
-        <div class="flex items-center space-x-2">
-            <i class="fa-solid fa-store text-xl"></i>
-            <h1 class="text-xl font-bold tracking-wide">নিশি বাজার</h1>
+    <header class="sticky top-0 bg-[#121216]/90 backdrop-blur-md border-b border-brand-pink/30 text-white shadow-lg z-30 px-4 py-3 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-brand-pink to-purple-600 flex items-center justify-center font-bold text-lg shadow-md border border-brand-pink">
+                <i class="fa-solid fa-bag-shopping text-sm text-white"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-extrabold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white via-pink-200 to-brand-pink">NISI BAZAR</h1>
+                <p class="text-[9px] text-gray-400 tracking-widest -mt-1 uppercase">Private • Discreet • Trusted</p>
+            </div>
         </div>
-        <button onclick="toggleCartModal()" class="relative p-2 bg-blue-700 rounded-full hover:bg-blue-800 transition">
-            <i class="fa-solid fa-cart-shopping text-lg"></i>
-            <span id="cart-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
+        <button onclick="toggleCartModal()" class="relative p-2.5 bg-brand-pink/10 border border-brand-pink/40 rounded-full hover:bg-brand-pink hover:text-white transition-all pink-glow">
+            <i class="fa-solid fa-cart-shopping text-base text-brand-pink hover:text-white"></i>
+            <span id="cart-badge" class="absolute -top-1 -right-1 bg-brand-pink text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center hidden border border-black">0</span>
         </button>
     </header>
 
     <!-- Categories Filter -->
-    <div class="bg-white shadow-sm py-2 px-4 mb-4 overflow-x-auto whitespace-nowrap hide-scrollbar flex space-x-2" id="category-container">
+    <div class="py-3 px-4 my-2 overflow-x-auto whitespace-nowrap hide-scrollbar flex space-x-2" id="category-container">
         <!-- Categories injected via JS -->
     </div>
 
     <!-- Products Grid -->
     <main class="container mx-auto px-4">
-        <h2 class="text-lg font-bold mb-3 text-gray-700 flex items-center">
-            <i class="fa-solid fa-fire text-orange-500 mr-2"></i> আমাদের পণ্যসমূহ
-        </h2>
-        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-md font-bold text-gray-200 flex items-center">
+                <i class="fa-solid fa-fire text-brand-pink mr-2"></i> Featured Products
+            </h2>
+            <span class="text-xs text-gray-400">100% Discreet Shipping</span>
+        </div>
+        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5">
             <!-- Products injected via JS -->
         </div>
     </main>
 
     <!-- Floating View Cart Button -->
     <div class="fixed bottom-4 left-4 right-4 z-20">
-        <button onclick="toggleCartModal()" class="w-full bg-emerald-600 text-white py-3 px-4 rounded-xl font-bold shadow-lg hover:bg-emerald-700 transition flex justify-between items-center">
-            <span class="flex items-center"><i class="fa-solid fa-basket-shopping mr-2"></i> কার্ট দেখুন</span>
-            <span id="floating-cart-total">৳0.00</span>
+        <button onclick="toggleCartModal()" class="w-full bg-gradient-to-r from-brand-pink to-pink-600 text-white py-3.5 px-5 rounded-2xl font-bold shadow-xl hover:brightness-110 transition flex justify-between items-center pink-glow-lg border border-pink-400/30">
+            <span class="flex items-center text-sm"><i class="fa-solid fa-basket-shopping mr-2 text-lg"></i> View Cart</span>
+            <span id="floating-cart-total" class="bg-black/30 px-3 py-1 rounded-xl text-sm font-extrabold border border-white/10">$0.00</span>
         </button>
     </div>
 
-    <!-- Info / Comment / Review Modal -->
-    <div id="detail-modal" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-5 max-h-[85vh] overflow-y-auto relative shadow-2xl">
-            <button onclick="closeDetailModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">
+    <!-- Info / Video / Comment / Review Modal -->
+    <div id="detail-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 hidden flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-pink/30 rounded-2xl max-w-md w-full p-5 max-h-[88vh] overflow-y-auto relative shadow-2xl text-gray-200">
+            <button onclick="closeDetailModal()" class="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl transition">
                 <i class="fa-solid fa-circle-xmark"></i>
             </button>
-            <h3 id="modal-title" class="text-lg font-bold text-gray-800 mb-2"></h3>
+            <h3 id="modal-title" class="text-lg font-bold text-white mb-3 pr-6"></h3>
             
-            <!-- Tabs -->
-            <div class="flex border-b mb-4">
-                <button onclick="switchTab('info')" id="tab-btn-info" class="flex-1 py-2 font-semibold text-blue-600 border-b-2 border-blue-600">বিবরণ</button>
-                <button onclick="switchTab('comments')" id="tab-btn-comments" class="flex-1 py-2 font-semibold text-gray-500">কমেন্ট</button>
-                <button onclick="switchTab('reviews')" id="tab-btn-reviews" class="flex-1 py-2 font-semibold text-gray-500">রিভিউ</button>
+            <!-- Navigation Tabs -->
+            <div class="flex border-b border-gray-800 mb-4 text-xs font-semibold">
+                <button onclick="switchTab('info')" id="tab-btn-info" class="flex-1 py-2 text-brand-pink border-b-2 border-brand-pink">Details</button>
+                <button onclick="switchTab('video')" id="tab-btn-video" class="flex-1 py-2 text-gray-400 hover:text-white flex items-center justify-center"><i class="fa-solid fa-circle-play mr-1 text-brand-pink"></i> Video Review</button>
+                <button onclick="switchTab('comments')" id="tab-btn-comments" class="flex-1 py-2 text-gray-400 hover:text-white">Comments</button>
+                <button onclick="switchTab('reviews')" id="tab-btn-reviews" class="flex-1 py-2 text-gray-400 hover:text-white">Reviews</button>
             </div>
 
             <!-- Tab Contents -->
-            <div id="tab-info" class="text-sm text-gray-600 space-y-2"></div>
-            <div id="tab-comments" class="text-sm text-gray-600 space-y-2 hidden"></div>
-            <div id="tab-reviews" class="text-sm text-gray-600 space-y-2 hidden"></div>
+            <div id="tab-info" class="text-xs text-gray-300 space-y-2 leading-relaxed"></div>
+            
+            <div id="tab-video" class="space-y-2 hidden">
+                <div class="aspect-video w-full rounded-xl overflow-hidden bg-black border border-gray-800 flex items-center justify-center">
+                    <iframe id="review-video-player" class="w-full h-full" src="" title="Product Video Review" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <p class="text-[11px] text-gray-400 text-center">Official video demonstration and unboxing review.</p>
+            </div>
+
+            <div id="tab-comments" class="text-xs space-y-2 hidden"></div>
+            <div id="tab-reviews" class="text-xs space-y-2 hidden"></div>
         </div>
     </div>
 
     <!-- Cart & Checkout Modal -->
-    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-5 max-h-[90vh] overflow-y-auto relative shadow-2xl">
-            <button onclick="toggleCartModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">
+    <div id="cart-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-brand-card border border-brand-pink/30 rounded-2xl max-w-lg w-full p-5 max-h-[90vh] overflow-y-auto relative shadow-2xl text-gray-200">
+            <button onclick="toggleCartModal()" class="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl transition">
                 <i class="fa-solid fa-circle-xmark"></i>
             </button>
-            <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2"><i class="fa-solid fa-cart-flatbed text-blue-600 mr-2"></i>আপনার শপিং কার্ট</h3>
+            <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-800 pb-2 flex items-center">
+                <i class="fa-solid fa-cart-flatbed text-brand-pink mr-2"></i> Your Shopping Cart
+            </h3>
             
             <!-- Cart Items -->
-            <div id="cart-items" class="space-y-3 mb-4 max-h-48 overflow-y-auto pr-1"></div>
+            <div id="cart-items" class="space-y-2.5 mb-4 max-h-48 overflow-y-auto pr-1"></div>
 
             <!-- Pricing Summary -->
-            <div class="border-t pt-3 space-y-1 text-sm text-gray-600 mb-4">
-                <div class="flex justify-between"><span>পণ্যের দাম:</span><span id="summary-subtotal">৳0</span></div>
-                <div class="flex justify-between"><span>ডেলিভারি চার্জ:</span><span id="summary-shipping">৳60</span></div>
-                <div class="flex justify-between font-bold text-gray-800 text-base border-t pt-1"><span>সর্বমোট:</span><span id="summary-grandtotal" class="text-emerald-600">৳0</span></div>
+            <div class="border-t border-gray-800 pt-3 space-y-1.5 text-xs text-gray-300 mb-4">
+                <div class="flex justify-between"><span>Subtotal:</span><span id="summary-subtotal" class="font-semibold text-white">$0.00</span></div>
+                <div class="flex justify-between"><span>Discreet Delivery Fee:</span><span id="summary-shipping" class="font-semibold text-white">$5.00</span></div>
+                <div class="flex justify-between font-bold text-white text-sm border-t border-gray-800 pt-2"><span>Total Amount:</span><span id="summary-grandtotal" class="text-brand-pink text-base">$0.00</span></div>
             </div>
 
             <!-- Checkout Form -->
-            <form id="checkout-form" onsubmit="handleCheckout(event)" class="space-y-3 border-t pt-4">
-                <h4 class="font-bold text-gray-700 text-md">ডেলিভারি ও পেমেন্ট তথ্য</h4>
+            <form id="checkout-form" onsubmit="handleCheckout(event)" class="space-y-3 border-t border-gray-800 pt-4">
+                <h4 class="font-bold text-white text-xs uppercase tracking-wider text-brand-pink">Delivery & Payment Info</h4>
                 <div>
-                    <input type="text" id="cust-name" placeholder="আপনার নাম *" required class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="cust-name" placeholder="Full Name *" required class="w-full px-3 py-2 bg-black/50 border border-gray-800 rounded-lg text-xs text-white focus:outline-none focus:border-brand-pink transition">
                 </div>
                 <div>
-                    <input type="tel" id="cust-phone" placeholder="মোবাইল নম্বর / টেলিগ্রাম ইউজারনেম *" required class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="cust-phone" placeholder="Phone Number / Telegram Username *" required class="w-full px-3 py-2 bg-black/50 border border-gray-800 rounded-lg text-xs text-white focus:outline-none focus:border-brand-pink transition">
                 </div>
                 <div>
-                    <textarea id="cust-address" placeholder="সম্পূর্ণ ঠিকানা (বাসা নম্বর, এরিয়া) *" required rows="2" class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    <textarea id="cust-address" placeholder="Full Shipping Address (City, Country, Zip) *" required rows="2" class="w-full px-3 py-2 bg-black/50 border border-gray-800 rounded-lg text-xs text-white focus:outline-none focus:border-brand-pink transition"></textarea>
                 </div>
 
-                <!-- Payment Details -->
-                <div class="bg-blue-50 p-3 rounded-lg border border-blue-200 text-xs text-blue-900 space-y-1">
-                    <p class="font-bold text-blue-800"><i class="fa-solid fa-wallet mr-1"></i> Binance Pay ID / Wallet:</p>
-                    <p class="text-sm font-mono bg-white p-1 rounded border text-center font-bold text-gray-800 select-all">876543210 (USDT / Pay)</p>
-                    <p class="text-gray-600">* উপরের Binance ID-তে পেমেন্ট সম্পন্ন করে নিচে TxID এবং প্রমাণ দিন।</p>
+                <!-- Binance Payment Details -->
+                <div class="bg-black/60 p-3 rounded-xl border border-brand-pink/30 text-xs space-y-1.5">
+                    <p class="font-bold text-white flex items-center justify-between">
+                        <span><i class="fa-solid fa-wallet text-brand-pink mr-1"></i> Binance Pay ID / Wallet:</span>
+                        <span class="text-[10px] bg-brand-pink/20 text-brand-pink px-2 py-0.5 rounded">USDT / Pay</span>
+                    </p>
+                    <p class="text-sm font-mono bg-brand-card p-1.5 rounded border border-gray-800 text-center font-bold text-brand-pink select-all">876543210</p>
+                    <p class="text-[11px] text-gray-400">* Pay the total amount to the Binance ID above and paste your TxID below.</p>
                 </div>
 
                 <div>
-                    <input type="text" id="cust-txid" placeholder="Binance Transaction ID (TxID) *" required class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="cust-txid" placeholder="Binance Transaction ID (TxID) *" required class="w-full px-3 py-2 bg-black/50 border border-gray-800 rounded-lg text-xs text-white focus:outline-none focus:border-brand-pink transition">
                 </div>
                 <div>
-                    <input type="text" id="cust-proof" placeholder="স্ক্রিনশট ইমেজের লিংক বা অতিরিক্ত নোট (ঐচ্ছিক)" class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" id="cust-proof" placeholder="Screenshot URL or Notes (Optional)" class="w-full px-3 py-2 bg-black/50 border border-gray-800 rounded-lg text-xs text-white focus:outline-none focus:border-brand-pink transition">
                 </div>
 
-                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow hover:bg-blue-700 transition">
-                    অর্ডার কনফার্ম করুন (Place Order)
+                <button type="submit" class="w-full bg-gradient-to-r from-brand-pink to-pink-600 text-white font-bold py-3 rounded-xl shadow-lg hover:brightness-110 transition pink-glow text-xs uppercase tracking-wider">
+                    Confirm & Place Order
                 </button>
             </form>
         </div>
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed top-16 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-4 py-2 rounded-full shadow-lg z-50 opacity-0 transition-opacity duration-300 pointer-events-none"></div>
+    <div id="toast" class="fixed top-16 left-1/2 transform -translate-x-1/2 bg-brand-pink text-white text-xs px-5 py-2.5 rounded-full shadow-2xl z-50 opacity-0 transition-opacity duration-300 pointer-events-none font-semibold border border-white/20"></div>
 
     <script>
         // Initialize Telegram WebApp
@@ -138,20 +188,92 @@
             tg.ready();
         }
 
-        // Sample 12 Products Data with 4 Categories
+        // Sample Products Data (USD currency, Video URLs, English Content)
         const products = [
-            { id: 1, title: "স্টেইনলেস স্টিল বোতল 1L", category: "Home & Kitchen", price: 550, oldPrice: 680, sold: 42, rating: 4.8, img: "https://images.unsplash.com/photo-1526403228480-5fd2d7b3a9ab?w=400", desc: "১০০% লিক-প্রুফ ঠান্ডা ও গরম পানি রাখার বোতল।", comments: ["কাস্টমার ১: চমৎকার কোয়ালিটি!", "কাস্টমার ২: বেশ কাজের বোতল।"], reviews: ["⭐⭐⭐⭐⭐ (৫/৫ - ১৫ রিভিউ)"] },
-            { id: 2, title: "রিচার্জেবল মিনি হ্যান্ড ফ্যান", category: "Gadgets", price: 750, oldPrice: 890, sold: 88, rating: 4.6, img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400", desc: "USB চার্জিং ব্যবস্থা সহ ৩ স্পিড কন্ট্রোল ফ্যান।", comments: ["কাস্টমার ৩: চার্জ খুব ভালো থাকে।"], reviews: ["⭐⭐⭐⭐☆ (৪.৬/৫ - ২৫ রিভিউ)"] },
-            { id: 3, title: "স্পোর্টস ক্যাপ UV Protect", category: "Fashion", price: 350, oldPrice: 450, sold: 19, rating: 4.3, img: "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=400", desc: "হালকা এবং কটন ফেব্রিকের আরামদায়ক ক্যাপ।", comments: ["কাস্টমার ৪: কাপড়ের মান ভালো।"], reviews: ["⭐⭐⭐⭐☆ (৪.৩/৫ - ৮ রিভিউ)"] },
-            { id: 4, title: "পোর্টেবল জুস ব্লেন্ডার", category: "Gadgets", price: 1390, oldPrice: 1650, sold: 34, rating: 4.5, img: "https://images.unsplash.com/photo-1542444459-db68acb25fda?w=400", desc: "সহজে ভ্রমণকালীন সময়ে ফ্রেশ জুস তৈরি করুন।", comments: ["কাস্টমার ৫: স্পিড অনেক ভালো।"], reviews: ["⭐⭐⭐⭐⭐ (৪.৫/৫ - ১২ রিভিউ)"] },
-            { id: 5, title: "ইনসুলেটেড টিফিন বক্স", category: "Home & Kitchen", price: 890, oldPrice: 1100, sold: 55, rating: 4.7, img: "https://images.unsplash.com/photo-1514516870926-2059898e8d79?w=400", desc: "খাবার দীর্ঘ সময় গরম রাখার নিরাপদ বক্স।", comments: ["কাস্টমার ৬: প্রতিদিন অফিসে নিয়ে যাই।"], reviews: ["⭐⭐⭐⭐⭐ (৪.৭/৫ - ১৮ রিভিউ)"] },
-            { id: 6, title: "সানস্ক্রিন SPF50+ জেল", category: "Health & Beauty", price: 690, oldPrice: 800, sold: 110, rating: 4.9, img: "https://images.unsplash.com/photo-1582719478250-38f5e8792d1c?w=400", desc: "ত্বকের সুরক্ষায় নন-স্টিকি সানস্ক্রিন।", comments: ["কাস্টমার ৭: একদম অরিজিনাল প্রোডাক্ট।"], reviews: ["⭐⭐⭐⭐⭐ (৪.৯/৫ - ৪৫ রিভিউ)"] },
-            { id: 7, title: "কটন ফেস টাওয়েল প্যাক", category: "Health & Beauty", price: 320, oldPrice: 400, sold: 76, rating: 4.4, img: "https://images.unsplash.com/photo-1582092723465-6b63f4b0fb2b?w=400", desc: "১০০% কটন নরম ও পানি শোষণকারী টাওয়েল।", comments: ["কাস্টমার ৮: নরম সফট কাপড়।"], reviews: ["⭐⭐⭐⭐☆ (৪.৪/৫ - ১০ রিভিউ)"] },
-            { id: 8, title: "থার্মস ওয়াটার ফ্লাস্ক 500ml", category: "Home & Kitchen", price: 780, oldPrice: 950, sold: 61, rating: 4.6, img: "https://images.unsplash.com/photo-1542736667-069246bdbc84?w=400", desc: "১২ ঘণ্টা তাপমাত্রা বজায় রাখার ক্ষমতা।", comments: ["কাস্টমার ৯: লিক করে না।"], reviews: ["⭐⭐⭐⭐½ (৪.৬/৫ - ২০ রিভিউ)"] },
-            { id: 9, title: "স্মার্ট কুলিং আই মাস্ক", category: "Health & Beauty", price: 260, oldPrice: 350, sold: 29, rating: 4.2, img: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=400", desc: "চোখের রিলাক্সেশন এবং ঘুমের সহায়তায়।", comments: ["কাস্টমার ১০: মাথা ব্যথা কমে।"], reviews: ["⭐⭐⭐⭐☆ (৪.২/৫ - ৫ রিভিউ)"] },
-            { id: 10, title: "মিনি হিউমিডিফায়ার USB", category: "Gadgets", price: 850, oldPrice: 1050, sold: 40, rating: 4.3, img: "https://images.unsplash.com/photo-1582719478250-7d2b75dc8f5a?w=400", desc: "রুমের আর্দ্রতা ও সতেজতা বজায় রাখে।", comments: ["কাস্টমার ১১: দেখতে খুব সুন্দর।"], reviews: ["⭐⭐⭐⭐☆ (৪.৩/৫ - ১৪ রিভিউ)"] },
-            { id: 11, title: "শ্বাসপ্রশ্বাসযোগ্য টি-শার্ট", category: "Fashion", price: 490, oldPrice: 650, sold: 95, rating: 4.5, img: "https://images.unsplash.com/photo-1520975693416-35a5b61a3277?w=400", desc: "গরমে পড়ার জন্য হালকা প্রিমিয়াম টি-শার্ট।", comments: ["কাস্টমার ১২: সাইজ একদম পারফেক্ট।"], reviews: ["⭐⭐⭐⭐½ (৪.৫/৫ - ৩০ রিভিউ)"] },
-            { id: 12, title: "ওয়াটারপ্রুফ ফোন পাউচ", category: "Gadgets", price: 290, oldPrice: 390, sold: 130, rating: 4.7, img: "https://images.unsplash.com/photo-1510557880182-3b1b6f9a1b07?w=400", desc: "বৃষ্টি বা পানির নিচে ফোন ব্যবহারের সেইফ পাউচ।", comments: ["কাস্টমার ১৩: পানিতে ফোন একদম ড্রাই থাকে।"], reviews: ["⭐⭐⭐⭐⭐ (৪.৭/৫ - ৩৮ রিভিউ)"] }
+            { 
+                id: 1, 
+                title: "Premium Stainless Water Flask 1L", 
+                category: "Lifestyle", 
+                price: 15.99, 
+                oldPrice: 19.99, 
+                sold: 142, 
+                rating: 4.8, 
+                img: "https://images.unsplash.com/photo-1526403228480-5fd2d7b3a9ab?w=400", 
+                desc: "100% Leak-proof double wall insulated flask. Keeps water cold for 24h & hot for 12h.",
+                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
+                comments: ["John D.: Fantastic insulation quality!", "Sarah L.: Sleek design and sturdy build."], 
+                reviews: ["⭐⭐⭐⭐⭐ (5.0/5) - Extremely satisfied with the vacuum seal."] 
+            },
+            { 
+                id: 2, 
+                title: "Rechargeable Mini Turbo Fan", 
+                category: "Gadgets", 
+                price: 12.50, 
+                oldPrice: 16.00, 
+                sold: 288, 
+                rating: 4.6, 
+                img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400", 
+                desc: "3-speed ultra quiet portable fan with high capacity USB battery.",
+                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
+                comments: ["Mike R.: Battery backup is surprisingly good.", "Alex M.: Very powerful airflow!"], 
+                reviews: ["⭐⭐⭐⭐☆ (4.6/5) - Super handy for traveling."] 
+            },
+            { 
+                id: 3, 
+                title: "Pro Sports Cap UV Protection", 
+                category: "Fashion", 
+                price: 8.99, 
+                oldPrice: 12.99, 
+                sold: 94, 
+                rating: 4.4, 
+                img: "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=400", 
+                desc: "Lightweight breathable cotton cap with ergonomic sweatband.",
+                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
+                comments: ["David K.: Fits perfectly fine.", "Emma W.: Good fabric quality."], 
+                reviews: ["⭐⭐⭐⭐☆ (4.4/5) - Stylish and lightweight."] 
+            },
+            { 
+                id: 4, 
+                title: "Portable Wireless Juice Blender", 
+                category: "Gadgets", 
+                price: 24.99, 
+                oldPrice: 32.00, 
+                sold: 134, 
+                rating: 4.7, 
+                img: "https://images.unsplash.com/photo-1542444459-db68acb25fda?w=400", 
+                desc: "High speed 6-blade blender for fresh smoothies on the go.",
+                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
+                comments: ["Lisa T.: Blends frozen fruit easily!", "Chris B.: Easy to clean."], 
+                reviews: ["⭐⭐⭐⭐⭐ (4.7/5) - Worth every dollar."] 
+            },
+            { 
+                id: 5, 
+                title: "Insulated Thermal Lunch Box", 
+                category: "Lifestyle", 
+                price: 18.50, 
+                oldPrice: 22.00, 
+                sold: 75, 
+                rating: 4.5, 
+                img: "https://images.unsplash.com/photo-1514516870926-2059898e8d79?w=400", 
+                desc: "Multi-layer leakproof food container for long heat preservation.",
+                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
+                comments: ["Rachel G.: Keeps meal warm till lunchtime."], 
+                reviews: ["⭐⭐⭐⭐½ (4.5/5) - High quality stainless inner."] 
+            },
+            { 
+                id: 6, 
+                title: "Hydrating Sunscreen Gel SPF50+", 
+                category: "Care", 
+                price: 14.00, 
+                oldPrice: 18.00, 
+                sold: 310, 
+                rating: 4.9, 
+                img: "https://images.unsplash.com/photo-1582719478250-38f5e8792d1c?w=400", 
+                desc: "Non-greasy, fast absorbing formula providing ultimate UV protection.",
+                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
+                comments: ["Sophia P.: No white cast at all!", "Anna B.: Perfect for oily skin."], 
+                reviews: ["⭐⭐⭐⭐⭐ (4.9/5) - Top tier sunscreen."] 
+            }
         ];
 
         let cart = [];
@@ -163,8 +285,8 @@
             const categories = ["All", ...new Set(products.map(p => p.category))];
             const container = document.getElementById('category-container');
             container.innerHTML = categories.map(cat => `
-                <button onclick="filterCategory('${cat}')" class="px-4 py-1.5 rounded-full text-xs font-semibold transition ${selectedCategory === cat ? 'bg-blue-600 text-white shadow' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}">
-                    ${cat === "All" ? "সব ক্যাটাগরি" : cat}
+                <button onclick="filterCategory('${cat}')" class="px-4 py-1.5 rounded-full text-xs font-semibold transition ${selectedCategory === cat ? 'bg-brand-pink text-white pink-glow' : 'bg-brand-card text-gray-400 hover:text-white border border-gray-800'}">
+                    ${cat === "All" ? "All Categories" : cat}
                 </button>
             `).join('');
         }
@@ -175,28 +297,33 @@
             const filtered = selectedCategory === "All" ? products : products.filter(p => p.category === selectedCategory);
             
             grid.innerHTML = filtered.map(p => `
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col justify-between p-2.5 hover:shadow-md transition">
+                <div class="bg-brand-card rounded-xl border border-gray-800/80 overflow-hidden flex flex-col justify-between p-2.5 hover:border-brand-pink/50 transition group">
                     <div>
-                        <img src="${p.img}" alt="${p.title}" class="w-full h-32 object-cover rounded-lg mb-2">
-                        <h3 class="font-bold text-xs text-gray-800 line-clamp-2 h-8 leading-tight mb-1">${p.title}</h3>
-                        <div class="flex items-baseline space-x-1 mb-1">
-                            <span class="text-emerald-600 font-bold text-sm">৳${p.price}</span>
-                            ${p.oldPrice ? `<span class="text-gray-400 text-xs line-through">৳${p.oldPrice}</span>` : ''}
+                        <div class="relative overflow-hidden rounded-lg mb-2">
+                            <img src="${p.img}" alt="${p.title}" class="w-full h-32 object-cover group-hover:scale-105 transition duration-300">
+                            <button onclick="openDetailModal(${p.id}, 'video')" class="absolute top-2 right-2 bg-black/70 hover:bg-brand-pink text-white text-[10px] px-2 py-1 rounded-md backdrop-blur-md flex items-center gap-1 border border-white/10 transition">
+                                <i class="fa-solid fa-play text-brand-pink group-hover:text-white"></i> Video
+                            </button>
                         </div>
-                        <div class="text-[10px] text-gray-500 mb-2 flex justify-between">
-                            <span>বিক্রি: ${p.sold} টি</span>
-                            <span class="text-amber-500 font-bold"><i class="fa-solid fa-star"></i> ${p.rating}</span>
+                        <h3 class="font-bold text-xs text-gray-200 line-clamp-2 h-8 leading-tight mb-1 group-hover:text-brand-pink transition">${p.title}</h3>
+                        <div class="flex items-baseline space-x-1.5 mb-1">
+                            <span class="text-brand-pink font-extrabold text-sm">$${p.price.toFixed(2)}</span>
+                            ${p.oldPrice ? `<span class="text-gray-500 text-[11px] line-through">$${p.oldPrice.toFixed(2)}</span>` : ''}
+                        </div>
+                        <div class="text-[10px] text-gray-400 mb-2 flex justify-between items-center">
+                            <span>Sold: ${p.sold}</span>
+                            <span class="text-amber-400 font-bold"><i class="fa-solid fa-star"></i> ${p.rating}</span>
                         </div>
                     </div>
 
-                    <div class="space-y-1 pt-1 border-t">
+                    <div class="space-y-1.5 pt-1.5 border-t border-gray-800/80">
                         <div class="grid grid-cols-3 gap-1 text-[10px]">
-                            <button onclick="openDetailModal(${p.id}, 'info')" class="bg-gray-100 py-1 rounded text-gray-600 font-semibold hover:bg-gray-200">তথ্য</button>
-                            <button onclick="openDetailModal(${p.id}, 'comments')" class="bg-gray-100 py-1 rounded text-gray-600 font-semibold hover:bg-gray-200">কমেন্ট</button>
-                            <button onclick="openDetailModal(${p.id}, 'reviews')" class="bg-gray-100 py-1 rounded text-gray-600 font-semibold hover:bg-gray-200">রিভিউ</button>
+                            <button onclick="openDetailModal(${p.id}, 'info')" class="bg-black/40 py-1 rounded text-gray-300 font-semibold hover:bg-gray-800 border border-gray-800">Info</button>
+                            <button onclick="openDetailModal(${p.id}, 'comments')" class="bg-black/40 py-1 rounded text-gray-300 font-semibold hover:bg-gray-800 border border-gray-800">Chat</button>
+                            <button onclick="openDetailModal(${p.id}, 'reviews')" class="bg-black/40 py-1 rounded text-gray-300 font-semibold hover:bg-gray-800 border border-gray-800">Review</button>
                         </div>
-                        <button onclick="addToCart(${p.id})" class="w-full bg-blue-600 text-white font-bold py-1.5 rounded-lg text-xs hover:bg-blue-700 transition flex items-center justify-center">
-                            <i class="fa-solid fa-cart-plus mr-1"></i> Add to Cart
+                        <button onclick="addToCart(${p.id})" class="w-full bg-brand-pink hover:bg-brand-darkpink text-white font-bold py-1.5 rounded-lg text-xs transition flex items-center justify-center gap-1 shadow">
+                            <i class="fa-solid fa-cart-plus"></i> Add to Cart
                         </button>
                     </div>
                 </div>
@@ -216,8 +343,9 @@
             document.getElementById('modal-title').innerText = p.title;
             
             document.getElementById('tab-info').innerHTML = `<p>${p.desc}</p>`;
-            document.getElementById('tab-comments').innerHTML = p.comments.map(c => `<div class="bg-gray-50 p-2 rounded border">${c}</div>`).join('');
-            document.getElementById('tab-reviews').innerHTML = p.reviews.map(r => `<div class="bg-amber-50 p-2 rounded border border-amber-200">${r}</div>`).join('');
+            document.getElementById('review-video-player').src = p.videoUrl;
+            document.getElementById('tab-comments').innerHTML = p.comments.map(c => `<div class="bg-black/50 p-2.5 rounded-lg border border-gray-800 text-gray-300">${c}</div>`).join('');
+            document.getElementById('tab-reviews').innerHTML = p.reviews.map(r => `<div class="bg-brand-pink/10 p-2.5 rounded-lg border border-brand-pink/30 text-pink-200">${r}</div>`).join('');
 
             switchTab(tab);
             document.getElementById('detail-modal').classList.remove('hidden');
@@ -225,15 +353,17 @@
 
         function closeDetailModal() {
             document.getElementById('detail-modal').classList.add('hidden');
+            // Pause video on close
+            document.getElementById('review-video-player').src = "";
         }
 
         function switchTab(tab) {
-            ['info', 'comments', 'reviews'].forEach(t => {
+            ['info', 'video', 'comments', 'reviews'].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`tab-btn-${t}`).className = "flex-1 py-2 font-semibold text-gray-500";
+                document.getElementById(`tab-btn-${t}`).className = "flex-1 py-2 text-gray-400 hover:text-white";
             });
             document.getElementById(`tab-${tab}`).classList.remove('hidden');
-            document.getElementById(`tab-btn-${tab}`).className = "flex-1 py-2 font-semibold text-blue-600 border-b-2 border-blue-600";
+            document.getElementById(`tab-btn-${tab}`).className = "flex-1 py-2 text-brand-pink border-b-2 border-brand-pink font-bold";
         }
 
         // Cart Operations
@@ -246,7 +376,7 @@
                 cart.push({ ...p, qty: 1 });
             }
             updateCartUI();
-            showToast(`${p.title} কার্টে যোগ করা হয়েছে!`);
+            showToast(`${p.title} added to cart!`);
         }
 
         function updateQuantity(id, change) {
@@ -263,38 +393,38 @@
         function updateCartUI() {
             const count = cart.reduce((sum, i) => sum + i.qty, 0);
             const subtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            const shipping = count > 0 ? 60 : 0;
+            const shipping = count > 0 ? 5.00 : 0;
             const grandTotal = subtotal + shipping;
 
             // Badges & Floating Total
             const badge = document.getElementById('cart-badge');
             badge.innerText = count;
             badge.classList.toggle('hidden', count === 0);
-            document.getElementById('floating-cart-total').innerText = `৳${grandTotal}`;
+            document.getElementById('floating-cart-total').innerText = `$${grandTotal.toFixed(2)}`;
 
             // Modal Cart Summary
-            document.getElementById('summary-subtotal').innerText = `৳${subtotal}`;
-            document.getElementById('summary-shipping').innerText = `৳${shipping}`;
-            document.getElementById('summary-grandtotal').innerText = `৳${grandTotal}`;
+            document.getElementById('summary-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('summary-shipping').innerText = `$${shipping.toFixed(2)}`;
+            document.getElementById('summary-grandtotal').innerText = `$${grandTotal.toFixed(2)}`;
 
             // Render Cart Items
             const itemsContainer = document.getElementById('cart-items');
             if (cart.length === 0) {
-                itemsContainer.innerHTML = `<p class="text-center text-gray-400 py-4 text-sm">আপনার কার্ট খালি!</p>`;
+                itemsContainer.innerHTML = `<p class="text-center text-gray-500 py-6 text-xs">Your shopping cart is empty!</p>`;
             } else {
                 itemsContainer.innerHTML = cart.map(i => `
-                    <div class="flex items-center justify-between bg-gray-50 p-2 rounded-lg border text-xs">
-                        <div class="flex items-center space-x-2">
-                            <img src="${i.img}" class="w-10 h-10 object-cover rounded">
+                    <div class="flex items-center justify-between bg-black/40 p-2 rounded-xl border border-gray-800 text-xs">
+                        <div class="flex items-center space-x-2.5">
+                            <img src="${i.img}" class="w-10 h-10 object-cover rounded-lg border border-gray-800">
                             <div>
-                                <h4 class="font-bold text-gray-800 line-clamp-1 w-28">${i.title}</h4>
-                                <span class="text-emerald-600 font-bold">৳${i.price} x ${i.qty}</span>
+                                <h4 class="font-bold text-gray-200 line-clamp-1 w-28 text-xs">${i.title}</h4>
+                                <span class="text-brand-pink font-bold">$${i.price.toFixed(2)} x ${i.qty}</span>
                             </div>
                         </div>
-                        <div class="flex items-center space-x-1">
-                            <button onclick="updateQuantity(${i.id}, -1)" class="w-6 h-6 bg-gray-200 rounded font-bold text-gray-700">-</button>
-                            <span class="px-1 font-bold">${i.qty}</span>
-                            <button onclick="updateQuantity(${i.id}, 1)" class="w-6 h-6 bg-gray-200 rounded font-bold text-gray-700">+</button>
+                        <div class="flex items-center space-x-1.5">
+                            <button onclick="updateQuantity(${i.id}, -1)" class="w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-md font-bold text-white flex items-center justify-center">-</button>
+                            <span class="px-1 font-bold text-xs text-white">${i.qty}</span>
+                            <button onclick="updateQuantity(${i.id}, 1)" class="w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-md font-bold text-white flex items-center justify-center">+</button>
                         </div>
                     </div>
                 `).join('');
@@ -316,12 +446,12 @@
         function handleCheckout(e) {
             e.preventDefault();
             if (cart.length === 0) {
-                alert("আপনার কার্টে কোনো পণ্য নেই!");
+                alert("Your cart is empty!");
                 return;
             }
 
             const subtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            const shipping = 60;
+            const shipping = 5.00;
             const grandTotal = subtotal + shipping;
 
             const orderData = {
@@ -334,9 +464,10 @@
                 },
                 items: cart.map(i => ({ title: i.title, qty: i.qty, price: i.price })),
                 pricing: {
-                    subtotal: subtotal,
-                    shipping: shipping,
-                    grandTotal: grandTotal
+                    subtotal: subtotal.toFixed(2),
+                    shipping: shipping.toFixed(2),
+                    grandTotal: grandTotal.toFixed(2),
+                    currency: "USD"
                 }
             };
 
@@ -345,7 +476,7 @@
                 tg.sendData(JSON.stringify(orderData));
                 tg.close();
             } else {
-                alert("অর্ডার সফলভাবে সাবমিট হয়েছে!\n(টেলিগ্রামের বাইরে থেকে ব্রাউজ করায় বট ডেটা পাঠানো হয়নি)");
+                alert("Order successfully placed!\n(Outside Telegram context - check console log)");
                 console.log("Order Data:", orderData);
             }
         }
