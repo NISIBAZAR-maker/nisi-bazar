@@ -1,490 +1,400 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NISI BAZAR - Telegram Mini App</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            pink: '#ff0055',
-                            darkpink: '#d60046',
-                            bg: '#0f0f12',
-                            card: '#18181c',
-                            cardhover: '#222228',
-                            neon: '#ff1493'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- FontAwesome Icons -->
+    <title>Nisi Bazar</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Telegram WebApp SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #0f0f12;
-            color: #f1f1f1;
+        /* Base Reset & Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .pink-glow {
-            box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
+
+        /* Requirement 2: Styled Dark Gradient Background */
+        body {
+            background: radial-gradient(circle at top left, #1f0814, #0d0d12 60%, #050508);
+            color: #ffffff;
+            min-height: 100vh;
+            padding-bottom: 80px;
         }
-        .pink-glow-lg {
-            box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
+
+        /* Header Layout */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: rgba(13, 13, 18, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 0, 127, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff007f;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Requirement 3: Customer Reviews Popup Button */
+        .btn-reviews-popup {
+            background: rgba(255, 0, 127, 0.15);
+            color: #ff007f;
+            border: 1px solid #ff007f;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.2);
+        }
+
+        .btn-reviews-popup:hover {
+            background: #ff007f;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.6);
+        }
+
+        .cart-icon {
+            position: relative;
+            background: rgba(255, 0, 127, 0.1);
+            border: 1px solid #ff007f;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ff007f;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff007f;
+            color: white;
+            font-size: 12px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        /* Main Content Grid */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            margin-bottom: 20px;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        /* Product Card Styling */
+        .product-card {
+            background: rgba(25, 25, 35, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 0, 127, 0.4);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            background-color: #1a1a24;
+        }
+
+        .product-title {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .price {
+            color: #ff007f;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .old-price {
+            color: #888;
+            text-decoration: line-through;
+            font-size: 13px;
+        }
+
+        /* Requirement 1: Highly Visible Action Buttons (Info, Chat, Review) */
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .btn-action {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 0, 127, 0.5); /* Glowing outline */
+            color: #ffffff;
+            padding: 8px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .btn-action:hover {
+            background: #ff007f;
+            border-color: #ff007f;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
+        }
+
+        .btn-add-cart {
+            background: #ff007f;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+
+        .btn-add-cart:hover {
+            background: #e0006f;
+        }
+
+        /* Customer Reviews Modal/Popup Styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: #15151e;
+            border: 1px solid #ff007f;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.3);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: #ff007f;
+        }
+
+        .review-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid #ff007f;
+        }
+
+        .review-user {
+            font-weight: bold;
+            font-size: 14px;
+            color: #ff007f;
+        }
+
+        .review-stars {
+            color: #ffc107;
+            font-size: 12px;
+            margin: 3px 0;
+        }
+
+        .review-text {
+            font-size: 13px;
+            color: #ddd;
         }
     </style>
 </head>
-<body class="pb-28 text-gray-200">
+<body>
 
-    <!-- Header / Navbar -->
-    <header class="sticky top-0 bg-[#121216]/90 backdrop-blur-md border-b border-brand-pink/30 text-white shadow-lg z-30 px-4 py-3 flex justify-between items-center">
-        <div class="flex items-center space-x-3">
-            <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-brand-pink to-purple-600 flex items-center justify-center font-bold text-lg shadow-md border border-brand-pink">
-                <i class="fa-solid fa-bag-shopping text-sm text-white"></i>
-            </div>
-            <div>
-                <h1 class="text-xl font-extrabold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white via-pink-200 to-brand-pink">NISI BAZAR</h1>
-                <p class="text-[9px] text-gray-400 tracking-widest -mt-1 uppercase">Private • Discreet • Trusted</p>
+    <!-- Header -->
+    <header>
+        <div class="logo">Nisi Bazar</div>
+        <div class="header-actions">
+            <!-- Customer Reviews Popup Trigger Button -->
+            <button class="btn-reviews-popup" id="openReviewsBtn">
+                <i class="fa-solid fa-star"></i> Reviews
+            </button>
+            <div class="cart-icon">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-badge">1</span>
             </div>
         </div>
-        <button onclick="toggleCartModal()" class="relative p-2.5 bg-brand-pink/10 border border-brand-pink/40 rounded-full hover:bg-brand-pink hover:text-white transition-all pink-glow">
-            <i class="fa-solid fa-cart-shopping text-base text-brand-pink hover:text-white"></i>
-            <span id="cart-badge" class="absolute -top-1 -right-1 bg-brand-pink text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center hidden border border-black">0</span>
-        </button>
     </header>
 
-    <!-- Categories Filter -->
-    <div class="py-3 px-4 my-2 overflow-x-auto whitespace-nowrap hide-scrollbar flex space-x-2" id="category-container">
-        <!-- Categories injected via JS -->
-    </div>
-
-    <!-- Products Grid -->
-    <main class="container mx-auto px-4">
-        <div class="flex items-center justify-between mb-4">
-            <h2 class="text-md font-bold text-gray-200 flex items-center">
-                <i class="fa-solid fa-fire text-brand-pink mr-2"></i> Featured Products
-            </h2>
-            <span class="text-xs text-gray-400">100% Discreet Shipping</span>
-        </div>
-        <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5">
-            <!-- Products injected via JS -->
-        </div>
-    </main>
-
-    <!-- Floating View Cart Button -->
-    <div class="fixed bottom-4 left-4 right-4 z-20">
-        <button onclick="toggleCartModal()" class="w-full bg-gradient-to-r from-brand-pink to-pink-600 text-white py-3.5 px-5 rounded-2xl font-bold shadow-xl hover:brightness-110 transition flex justify-between items-center pink-glow-lg border border-pink-400/30">
-            <span class="flex items-center text-sm"><i class="fa-solid fa-basket-shopping mr-2 text-lg"></i> View Cart</span>
-            <span id="floating-cart-total" class="bg-black/30 px-3 py-1 rounded-xl text-sm font-extrabold border border-white/10">$0.00</span>
-        </button>
-    </div>
-
-    <!-- Info / Video / Comment / Review Modal -->
-    <div id="detail-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 hidden flex items-center justify-center p-4">
-        <div class="bg-brand-card border border-brand-pink/30 rounded-2xl max-w-md w-full p-5 max-h-[88vh] overflow-y-auto relative shadow-2xl text-gray-200">
-            <button onclick="closeDetailModal()" class="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl transition">
-                <i class="fa-solid fa-circle-xmark"></i>
-            </button>
-            <h3 id="modal-title" class="text-lg font-bold text-white mb-3 pr-6"></h3>
-            
-            <!-- Navigation Tabs -->
-            <div class="flex border-b border-gray-800 mb-4 text-xs font-semibold">
-                <button onclick="switchTab('info')" id="tab-btn-info" class="flex-1 py-2 text-brand-pink border-b-2 border-brand-pink">Details</button>
-                <button onclick="switchTab('video')" id="tab-btn-video" class="flex-1 py-2 text-gray-400 hover:text-white flex items-center justify-center"><i class="fa-solid fa-circle-play mr-1 text-brand-pink"></i> Video Review</button>
-                <button onclick="switchTab('comments')" id="tab-btn-comments" class="flex-1 py-2 text-gray-400 hover:text-white">Comments</button>
-                <button onclick="switchTab('reviews')" id="tab-btn-reviews" class="flex-1 py-2 text-gray-400 hover:text-white">Reviews</button>
-            </div>
-
-            <!-- Tab Contents -->
-            <div id="tab-info" class="text-xs text-gray-300 space-y-2 leading-relaxed"></div>
-            
-            <div id="tab-video" class="space-y-2 hidden">
-                <div class="aspect-video w-full rounded-xl overflow-hidden bg-black border border-gray-800 flex items-center justify-center">
-                    <iframe id="review-video-player" class="w-full h-full" src="" title="Product Video Review" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <!-- Main Content -->
+    <div class="container">
+        <h2 class="section-title"><i class="fa-solid fa-fire" style="color:#ff007f;"></i> Featured Products</h2>
+        
+        <div class="product-grid">
+            <!-- Product Card Example -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250x160" alt="Product" class="product-img">
+                <div class="product-title">Premium Stainless Water Flask 1L</div>
+                <div class="price-row">
+                    <span class="price">$15.99</span>
+                    <span class="old-price">$19.99</span>
                 </div>
-                <p class="text-[11px] text-gray-400 text-center">Official video demonstration and unboxing review.</p>
-            </div>
-
-            <div id="tab-comments" class="text-xs space-y-2 hidden"></div>
-            <div id="tab-reviews" class="text-xs space-y-2 hidden"></div>
-        </div>
-    </div>
-
-    <!-- Cart & Checkout Modal -->
-    <div id="cart-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-brand-card border border-brand-pink/30 rounded-2xl max-w-lg w-full p-5 max-h-[90vh] overflow-y-auto relative shadow-2xl text-gray-200">
-            <button onclick="toggleCartModal()" class="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl transition">
-                <i class="fa-solid fa-circle-xmark"></i>
-            </button>
-            <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-800 pb-2 flex items-center">
-                <i class="fa-solid fa-cart-flatbed text-brand-pink mr-2"></i> Your Shopping Cart
-            </h3>
-            
-            <!-- Cart Items -->
-            <div id="cart-items" class="space-y-2.5 mb-4 max-h-48 overflow-y-auto pr-1"></div>
-
-            <!-- Pricing Summary -->
-            <div class="border-t border-gray-800 pt-3 space-y-1.5 text-xs text-gray-300 mb-4">
-                <div class="flex justify-between"><span>Subtotal:</span><span id="summary-subtotal" class="font-semibold text-white">$0.00</span></div>
-                <div class="flex justify-between"><span>Discreet Delivery Fee:</span><span id="summary-shipping" class="font-semibold text-white">$5.00</span></div>
-                <div class="flex justify-between font-bold text-white text-sm border-t border-gray-800 pt-2"><span>Total Amount:</span><span id="summary-grandtotal" class="text-brand-pink text-base">$0.00</span></div>
-            </div>
-
-            <!-- Checkout Form -->
-            <form id="checkout-form" onsubmit="handleCheckout(event)" class="space-y-3 border-t border-gray-800 pt-4">
-                <h4 class="font-bold text-white text-xs uppercase tracking-wider text-brand-pink">Delivery & Payment Info</h4>
-                <div>
-                    <input type="text" id="cust-name" placeholder="Full Name *" required class="w-full px-3 py-2 bg-black/50 border border-gray-800 rounded-lg text-xs text-white focus:outline-none focus:border-brand-pink transition">
+                <!-- Visibly Enhanced Buttons -->
+                <div class="card-actions">
+                    <button class="btn-action">Info</button>
+                    <button class="btn-action">Chat</button>
+                    <button class="btn-action">Review</button>
                 </div>
-                <div>
-                    <input type="text" id="cust-phone" placeholder="Phone Number / Telegram Username *" required class="w-full px-3 py-2 bg-black/50 border border-gray-800 rounded-lg text-xs text-white focus:outline-none focus:border-brand-pink transition">
-                </div>
-                <div>
-                    <textarea id="cust-address" placeholder="Full Shipping Address (City, Country, Zip) *" required rows="2" class="w-full px-3 py-2 bg-black/50 border border-gray-800 rounded-lg text-xs text-white focus:outline-none focus:border-brand-pink transition"></textarea>
-                </div>
-
-                <!-- Binance Payment Details -->
-                <div class="bg-black/60 p-3 rounded-xl border border-brand-pink/30 text-xs space-y-1.5">
-                    <p class="font-bold text-white flex items-center justify-between">
-                        <span><i class="fa-solid fa-wallet text-brand-pink mr-1"></i> Binance Pay ID / Wallet:</span>
-                        <span class="text-[10px] bg-brand-pink/20 text-brand-pink px-2 py-0.5 rounded">USDT / Pay</span>
-                    </p>
-                    <p class="text-sm font-mono bg-brand-card p-1.5 rounded border border-gray-800 text-center font-bold text-brand-pink select-all">876543210</p>
-                    <p class="text-[11px] text-gray-400">* Pay the total amount to the Binance ID above and paste your TxID below.</p>
-                </div>
-
-                <div>
-                    <input type="text" id="cust-txid" placeholder="Binance Transaction ID (TxID) *" required class="w-full px-3 py-2 bg-black/50 border border-gray-800 rounded-lg text-xs text-white focus:outline-none focus:border-brand-pink transition">
-                </div>
-                <div>
-                    <input type="text" id="cust-proof" placeholder="Screenshot URL or Notes (Optional)" class="w-full px-3 py-2 bg-black/50 border border-gray-800 rounded-lg text-xs text-white focus:outline-none focus:border-brand-pink transition">
-                </div>
-
-                <button type="submit" class="w-full bg-gradient-to-r from-brand-pink to-pink-600 text-white font-bold py-3 rounded-xl shadow-lg hover:brightness-110 transition pink-glow text-xs uppercase tracking-wider">
-                    Confirm & Place Order
+                <button class="btn-add-cart">
+                    <i class="fa-solid fa-cart-plus"></i> Add to Cart
                 </button>
-            </form>
+            </div>
+
+            <!-- Product Card Example 2 -->
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250x160" alt="Product" class="product-img">
+                <div class="product-title">Rechargeable Mini Turbo Fan</div>
+                <div class="price-row">
+                    <span class="price">$12.50</span>
+                    <span class="old-price">$16.00</span>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-action">Info</button>
+                    <button class="btn-action">Chat</button>
+                    <button class="btn-action">Review</button>
+                </div>
+                <button class="btn-add-cart">
+                    <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed top-16 left-1/2 transform -translate-x-1/2 bg-brand-pink text-white text-xs px-5 py-2.5 rounded-full shadow-2xl z-50 opacity-0 transition-opacity duration-300 pointer-events-none font-semibold border border-white/20"></div>
+    <!-- Customer Reviews Modal Popup -->
+    <div class="modal-overlay" id="reviewsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Customer Reviews</h3>
+                <button class="modal-close" id="closeReviewsBtn">&times;</button>
+            </div>
+            <div class="reviews-list">
+                <div class="review-item">
+                    <div class="review-user">Sanaul Islam</div>
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-text">Product quality is top-notch! Super fast delivery.</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-user">Tanvir Ahmed</div>
+                    <div class="review-stars">★★★★☆</div>
+                    <div class="review-text">Very good dark theme design and customer support is fast.</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- JavaScript for Popup Logic -->
     <script>
-        // Initialize Telegram WebApp
-        let tg = window.Telegram ? window.Telegram.WebApp : null;
-        if (tg) {
-            tg.expand();
-            tg.ready();
-        }
+        const modal = document.getElementById('reviewsModal');
+        const openBtn = document.getElementById('openReviewsBtn');
+        const closeBtn = document.getElementById('closeReviewsBtn');
 
-        // Sample Products Data (USD currency, Video URLs, English Content)
-        const products = [
-            { 
-                id: 1, 
-                title: "Premium Stainless Water Flask 1L", 
-                category: "Lifestyle", 
-                price: 15.99, 
-                oldPrice: 19.99, 
-                sold: 142, 
-                rating: 4.8, 
-                img: "https://images.unsplash.com/photo-1526403228480-5fd2d7b3a9ab?w=400", 
-                desc: "100% Leak-proof double wall insulated flask. Keeps water cold for 24h & hot for 12h.",
-                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
-                comments: ["John D.: Fantastic insulation quality!", "Sarah L.: Sleek design and sturdy build."], 
-                reviews: ["⭐⭐⭐⭐⭐ (5.0/5) - Extremely satisfied with the vacuum seal."] 
-            },
-            { 
-                id: 2, 
-                title: "Rechargeable Mini Turbo Fan", 
-                category: "Gadgets", 
-                price: 12.50, 
-                oldPrice: 16.00, 
-                sold: 288, 
-                rating: 4.6, 
-                img: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400", 
-                desc: "3-speed ultra quiet portable fan with high capacity USB battery.",
-                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
-                comments: ["Mike R.: Battery backup is surprisingly good.", "Alex M.: Very powerful airflow!"], 
-                reviews: ["⭐⭐⭐⭐☆ (4.6/5) - Super handy for traveling."] 
-            },
-            { 
-                id: 3, 
-                title: "Pro Sports Cap UV Protection", 
-                category: "Fashion", 
-                price: 8.99, 
-                oldPrice: 12.99, 
-                sold: 94, 
-                rating: 4.4, 
-                img: "https://images.unsplash.com/photo-1517677208171-0bc6725a3e60?w=400", 
-                desc: "Lightweight breathable cotton cap with ergonomic sweatband.",
-                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
-                comments: ["David K.: Fits perfectly fine.", "Emma W.: Good fabric quality."], 
-                reviews: ["⭐⭐⭐⭐☆ (4.4/5) - Stylish and lightweight."] 
-            },
-            { 
-                id: 4, 
-                title: "Portable Wireless Juice Blender", 
-                category: "Gadgets", 
-                price: 24.99, 
-                oldPrice: 32.00, 
-                sold: 134, 
-                rating: 4.7, 
-                img: "https://images.unsplash.com/photo-1542444459-db68acb25fda?w=400", 
-                desc: "High speed 6-blade blender for fresh smoothies on the go.",
-                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
-                comments: ["Lisa T.: Blends frozen fruit easily!", "Chris B.: Easy to clean."], 
-                reviews: ["⭐⭐⭐⭐⭐ (4.7/5) - Worth every dollar."] 
-            },
-            { 
-                id: 5, 
-                title: "Insulated Thermal Lunch Box", 
-                category: "Lifestyle", 
-                price: 18.50, 
-                oldPrice: 22.00, 
-                sold: 75, 
-                rating: 4.5, 
-                img: "https://images.unsplash.com/photo-1514516870926-2059898e8d79?w=400", 
-                desc: "Multi-layer leakproof food container for long heat preservation.",
-                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
-                comments: ["Rachel G.: Keeps meal warm till lunchtime."], 
-                reviews: ["⭐⭐⭐⭐½ (4.5/5) - High quality stainless inner."] 
-            },
-            { 
-                id: 6, 
-                title: "Hydrating Sunscreen Gel SPF50+", 
-                category: "Care", 
-                price: 14.00, 
-                oldPrice: 18.00, 
-                sold: 310, 
-                rating: 4.9, 
-                img: "https://images.unsplash.com/photo-1582719478250-38f5e8792d1c?w=400", 
-                desc: "Non-greasy, fast absorbing formula providing ultimate UV protection.",
-                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", 
-                comments: ["Sophia P.: No white cast at all!", "Anna B.: Perfect for oily skin."], 
-                reviews: ["⭐⭐⭐⭐⭐ (4.9/5) - Top tier sunscreen."] 
+        openBtn.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
             }
-        ];
-
-        let cart = [];
-        let selectedCategory = "All";
-        let activeProductId = null;
-
-        // Render Categories
-        function renderCategories() {
-            const categories = ["All", ...new Set(products.map(p => p.category))];
-            const container = document.getElementById('category-container');
-            container.innerHTML = categories.map(cat => `
-                <button onclick="filterCategory('${cat}')" class="px-4 py-1.5 rounded-full text-xs font-semibold transition ${selectedCategory === cat ? 'bg-brand-pink text-white pink-glow' : 'bg-brand-card text-gray-400 hover:text-white border border-gray-800'}">
-                    ${cat === "All" ? "All Categories" : cat}
-                </button>
-            `).join('');
-        }
-
-        // Render Products Grid
-        function renderProducts() {
-            const grid = document.getElementById('product-grid');
-            const filtered = selectedCategory === "All" ? products : products.filter(p => p.category === selectedCategory);
-            
-            grid.innerHTML = filtered.map(p => `
-                <div class="bg-brand-card rounded-xl border border-gray-800/80 overflow-hidden flex flex-col justify-between p-2.5 hover:border-brand-pink/50 transition group">
-                    <div>
-                        <div class="relative overflow-hidden rounded-lg mb-2">
-                            <img src="${p.img}" alt="${p.title}" class="w-full h-32 object-cover group-hover:scale-105 transition duration-300">
-                            <button onclick="openDetailModal(${p.id}, 'video')" class="absolute top-2 right-2 bg-black/70 hover:bg-brand-pink text-white text-[10px] px-2 py-1 rounded-md backdrop-blur-md flex items-center gap-1 border border-white/10 transition">
-                                <i class="fa-solid fa-play text-brand-pink group-hover:text-white"></i> Video
-                            </button>
-                        </div>
-                        <h3 class="font-bold text-xs text-gray-200 line-clamp-2 h-8 leading-tight mb-1 group-hover:text-brand-pink transition">${p.title}</h3>
-                        <div class="flex items-baseline space-x-1.5 mb-1">
-                            <span class="text-brand-pink font-extrabold text-sm">$${p.price.toFixed(2)}</span>
-                            ${p.oldPrice ? `<span class="text-gray-500 text-[11px] line-through">$${p.oldPrice.toFixed(2)}</span>` : ''}
-                        </div>
-                        <div class="text-[10px] text-gray-400 mb-2 flex justify-between items-center">
-                            <span>Sold: ${p.sold}</span>
-                            <span class="text-amber-400 font-bold"><i class="fa-solid fa-star"></i> ${p.rating}</span>
-                        </div>
-                    </div>
-
-                    <div class="space-y-1.5 pt-1.5 border-t border-gray-800/80">
-                        <div class="grid grid-cols-3 gap-1 text-[10px]">
-                            <button onclick="openDetailModal(${p.id}, 'info')" class="bg-black/40 py-1 rounded text-gray-300 font-semibold hover:bg-gray-800 border border-gray-800">Info</button>
-                            <button onclick="openDetailModal(${p.id}, 'comments')" class="bg-black/40 py-1 rounded text-gray-300 font-semibold hover:bg-gray-800 border border-gray-800">Chat</button>
-                            <button onclick="openDetailModal(${p.id}, 'reviews')" class="bg-black/40 py-1 rounded text-gray-300 font-semibold hover:bg-gray-800 border border-gray-800">Review</button>
-                        </div>
-                        <button onclick="addToCart(${p.id})" class="w-full bg-brand-pink hover:bg-brand-darkpink text-white font-bold py-1.5 rounded-lg text-xs transition flex items-center justify-center gap-1 shadow">
-                            <i class="fa-solid fa-cart-plus"></i> Add to Cart
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function filterCategory(cat) {
-            selectedCategory = cat;
-            renderCategories();
-            renderProducts();
-        }
-
-        // Detail Modal Controls
-        function openDetailModal(id, tab) {
-            activeProductId = id;
-            const p = products.find(item => item.id === id);
-            document.getElementById('modal-title').innerText = p.title;
-            
-            document.getElementById('tab-info').innerHTML = `<p>${p.desc}</p>`;
-            document.getElementById('review-video-player').src = p.videoUrl;
-            document.getElementById('tab-comments').innerHTML = p.comments.map(c => `<div class="bg-black/50 p-2.5 rounded-lg border border-gray-800 text-gray-300">${c}</div>`).join('');
-            document.getElementById('tab-reviews').innerHTML = p.reviews.map(r => `<div class="bg-brand-pink/10 p-2.5 rounded-lg border border-brand-pink/30 text-pink-200">${r}</div>`).join('');
-
-            switchTab(tab);
-            document.getElementById('detail-modal').classList.remove('hidden');
-        }
-
-        function closeDetailModal() {
-            document.getElementById('detail-modal').classList.add('hidden');
-            // Pause video on close
-            document.getElementById('review-video-player').src = "";
-        }
-
-        function switchTab(tab) {
-            ['info', 'video', 'comments', 'reviews'].forEach(t => {
-                document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`tab-btn-${t}`).className = "flex-1 py-2 text-gray-400 hover:text-white";
-            });
-            document.getElementById(`tab-${tab}`).classList.remove('hidden');
-            document.getElementById(`tab-btn-${tab}`).className = "flex-1 py-2 text-brand-pink border-b-2 border-brand-pink font-bold";
-        }
-
-        // Cart Operations
-        function addToCart(id) {
-            const p = products.find(item => item.id === id);
-            const item = cart.find(c => c.id === id);
-            if (item) {
-                item.qty++;
-            } else {
-                cart.push({ ...p, qty: 1 });
-            }
-            updateCartUI();
-            showToast(`${p.title} added to cart!`);
-        }
-
-        function updateQuantity(id, change) {
-            const item = cart.find(c => c.id === id);
-            if (item) {
-                item.qty += change;
-                if (item.qty <= 0) {
-                    cart = cart.filter(c => c.id !== id);
-                }
-            }
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            const count = cart.reduce((sum, i) => sum + i.qty, 0);
-            const subtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            const shipping = count > 0 ? 5.00 : 0;
-            const grandTotal = subtotal + shipping;
-
-            // Badges & Floating Total
-            const badge = document.getElementById('cart-badge');
-            badge.innerText = count;
-            badge.classList.toggle('hidden', count === 0);
-            document.getElementById('floating-cart-total').innerText = `$${grandTotal.toFixed(2)}`;
-
-            // Modal Cart Summary
-            document.getElementById('summary-subtotal').innerText = `$${subtotal.toFixed(2)}`;
-            document.getElementById('summary-shipping').innerText = `$${shipping.toFixed(2)}`;
-            document.getElementById('summary-grandtotal').innerText = `$${grandTotal.toFixed(2)}`;
-
-            // Render Cart Items
-            const itemsContainer = document.getElementById('cart-items');
-            if (cart.length === 0) {
-                itemsContainer.innerHTML = `<p class="text-center text-gray-500 py-6 text-xs">Your shopping cart is empty!</p>`;
-            } else {
-                itemsContainer.innerHTML = cart.map(i => `
-                    <div class="flex items-center justify-between bg-black/40 p-2 rounded-xl border border-gray-800 text-xs">
-                        <div class="flex items-center space-x-2.5">
-                            <img src="${i.img}" class="w-10 h-10 object-cover rounded-lg border border-gray-800">
-                            <div>
-                                <h4 class="font-bold text-gray-200 line-clamp-1 w-28 text-xs">${i.title}</h4>
-                                <span class="text-brand-pink font-bold">$${i.price.toFixed(2)} x ${i.qty}</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-1.5">
-                            <button onclick="updateQuantity(${i.id}, -1)" class="w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-md font-bold text-white flex items-center justify-center">-</button>
-                            <span class="px-1 font-bold text-xs text-white">${i.qty}</span>
-                            <button onclick="updateQuantity(${i.id}, 1)" class="w-6 h-6 bg-gray-800 hover:bg-gray-700 rounded-md font-bold text-white flex items-center justify-center">+</button>
-                        </div>
-                    </div>
-                `).join('');
-            }
-        }
-
-        function toggleCartModal() {
-            document.getElementById('cart-modal').classList.toggle('hidden');
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            toast.innerText = msg;
-            toast.classList.remove('opacity-0');
-            setTimeout(() => toast.classList.add('opacity-0'), 2000);
-        }
-
-        // Handle Checkout & Send Data to Telegram Bot
-        function handleCheckout(e) {
-            e.preventDefault();
-            if (cart.length === 0) {
-                alert("Your cart is empty!");
-                return;
-            }
-
-            const subtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            const shipping = 5.00;
-            const grandTotal = subtotal + shipping;
-
-            const orderData = {
-                customer: {
-                    name: document.getElementById('cust-name').value,
-                    phone: document.getElementById('cust-phone').value,
-                    address: document.getElementById('cust-address').value,
-                    txid: document.getElementById('cust-txid').value,
-                    proofNote: document.getElementById('cust-proof').value || "N/A"
-                },
-                items: cart.map(i => ({ title: i.title, qty: i.qty, price: i.price })),
-                pricing: {
-                    subtotal: subtotal.toFixed(2),
-                    shipping: shipping.toFixed(2),
-                    grandTotal: grandTotal.toFixed(2),
-                    currency: "USD"
-                }
-            };
-
-            // Send payload to Telegram Bot
-            if (tg) {
-                tg.sendData(JSON.stringify(orderData));
-                tg.close();
-            } else {
-                alert("Order successfully placed!\n(Outside Telegram context - check console log)");
-                console.log("Order Data:", orderData);
-            }
-        }
-
-        // Initialize App
-        renderCategories();
-        renderProducts();
-        updateCartUI();
+        });
     </script>
 </body>
 </html>
