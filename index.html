@@ -16,7 +16,6 @@
       --border-color: #261b30;
       --star-color: #ffb703;
       --success: #2ec4b6;
-      --binance-yellow: #f0b90b;
     }
 
     * {
@@ -352,62 +351,6 @@
       gap: 8px;
     }
 
-    /* Binance Pay Box Styling */
-    .binance-pay-box {
-      background: #181409;
-      border: 1px solid var(--binance-yellow);
-      border-radius: 8px;
-      padding: 12px;
-      margin: 10px 0;
-      text-align: center;
-    }
-    .binance-title {
-      color: var(--binance-yellow);
-      font-weight: bold;
-      font-size: 14px;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-    .binance-id-row {
-      background: #000;
-      border: 1px dashed var(--binance-yellow);
-      padding: 8px;
-      border-radius: 6px;
-      color: #fff;
-      font-weight: bold;
-      font-size: 13px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    .copy-btn {
-      background: var(--binance-yellow);
-      color: #000;
-      border: none;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-weight: bold;
-      font-size: 11px;
-      cursor: pointer;
-    }
-    .qr-box {
-      width: 160px;
-      height: 160px;
-      margin: 0 auto 8px;
-      border: 2px solid var(--binance-yellow);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .qr-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
     /* Checkout Form Elements */
     .checkout-form {
       display: flex;
@@ -434,7 +377,7 @@
       outline: none;
     }
     .form-group input:focus, .form-group select:focus {
-      border-color: var(--binance-yellow);
+      border-color: var(--accent);
     }
 
     /* Reviews Section Styling */
@@ -443,7 +386,7 @@
       border: 1px solid var(--border-color);
       border-radius: 8px;
       padding: 12px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
     .review-user {
       display: flex;
@@ -487,6 +430,20 @@
       font-size: 12px;
       color: var(--text-muted);
       line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .review-images-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .review-img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
     }
     .review-date {
       font-size: 10px;
@@ -505,7 +462,7 @@
 <body>
 
   <div class="top-bar">
-    <div class="marquee">🔒 100% Discrete Shipping • Pay via Binance USDT • Safe Delivery</div>
+    <div class="marquee">🔒 100% Discrete Shipping • Private Packaging • Safe Delivery</div>
   </div>
 
   <header>
@@ -517,7 +474,7 @@
       </div>
     </a>
     <div class="header-right">
-      <button class="btn-review-trigger" onclick="openModal('reviewsModal')">
+      <button class="btn-review-trigger" onclick="openReviewsModal('all')">
         <i class="fa-solid fa-star"></i> Reviews
       </button>
       <div class="cart-trigger" onclick="openModal('cartModal')">
@@ -542,7 +499,7 @@
       </div>
       <div class="product-title">Premium Eagle Pocket Knife</div>
       <div class="price-row">
-        <span class="price">$6.99 USDT</span>
+        <span class="price">$6.99</span>
         <span class="old-price">$10.99</span>
       </div>
       <div class="meta-row">
@@ -552,7 +509,7 @@
       <div class="card-actions">
         <button class="btn-action" onclick="openModal('infoModal')">Info</button>
         <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openModal('reviewsModal')">Review</button>
+        <button class="btn-action" onclick="openReviewsModal(1)">Review</button>
       </div>
       <button class="btn-add-cart" onclick="addToCart('Premium Eagle Pocket Knife', 6.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
     </div>
@@ -565,7 +522,7 @@
       </div>
       <div class="product-title">Product Name 2</div>
       <div class="price-row">
-        <span class="price">$9.99 USDT</span>
+        <span class="price">$9.99</span>
         <span class="old-price">$15.00</span>
       </div>
       <div class="meta-row">
@@ -575,7 +532,7 @@
       <div class="card-actions">
         <button class="btn-action" onclick="openModal('infoModal')">Info</button>
         <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openModal('reviewsModal')">Review</button>
+        <button class="btn-action" onclick="openReviewsModal(2)">Review</button>
       </div>
       <button class="btn-add-cart" onclick="addToCart('Product Name 2', 9.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
     </div>
@@ -588,7 +545,7 @@
       </div>
       <div class="product-title">Product Name 3</div>
       <div class="price-row">
-        <span class="price">$12.99 USDT</span>
+        <span class="price">$12.99</span>
         <span class="old-price">$18.00</span>
       </div>
       <div class="meta-row">
@@ -598,7 +555,7 @@
       <div class="card-actions">
         <button class="btn-action" onclick="openModal('infoModal')">Info</button>
         <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openModal('reviewsModal')">Review</button>
+        <button class="btn-action" onclick="openReviewsModal(3)">Review</button>
       </div>
       <button class="btn-add-cart" onclick="addToCart('Product Name 3', 12.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
     </div>
@@ -611,7 +568,7 @@
       </div>
       <div class="product-title">Product Name 4</div>
       <div class="price-row">
-        <span class="price">$15.00 USDT</span>
+        <span class="price">$15.00</span>
         <span class="old-price">$22.00</span>
       </div>
       <div class="meta-row">
@@ -621,7 +578,7 @@
       <div class="card-actions">
         <button class="btn-action" onclick="openModal('infoModal')">Info</button>
         <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openModal('reviewsModal')">Review</button>
+        <button class="btn-action" onclick="openReviewsModal(4)">Review</button>
       </div>
       <button class="btn-add-cart" onclick="addToCart('Product Name 4', 15.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
     </div>
@@ -634,7 +591,7 @@
       </div>
       <div class="product-title">Product Name 5</div>
       <div class="price-row">
-        <span class="price">$8.00 USDT</span>
+        <span class="price">$8.00</span>
         <span class="old-price">$12.00</span>
       </div>
       <div class="meta-row">
@@ -644,7 +601,7 @@
       <div class="card-actions">
         <button class="btn-action" onclick="openModal('infoModal')">Info</button>
         <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openModal('reviewsModal')">Review</button>
+        <button class="btn-action" onclick="openReviewsModal(5)">Review</button>
       </div>
       <button class="btn-add-cart" onclick="addToCart('Product Name 5', 8.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
     </div>
@@ -653,21 +610,21 @@
     <div class="product-card">
       <div class="img-container"><img src="https://via.placeholder.com/300x200" class="product-img"></div>
       <div class="product-title">Product Name 6</div>
-      <div class="price-row"><span class="price">$11.50 USDT</span></div>
+      <div class="price-row"><span class="price">$11.50</span></div>
       <button class="btn-add-cart" onclick="addToCart('Product Name 6', 11.50)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
     </div>
 
     <div class="product-card">
       <div class="img-container"><img src="https://via.placeholder.com/300x200" class="product-img"></div>
       <div class="product-title">Product Name 7</div>
-      <div class="price-row"><span class="price">$14.00 USDT</span></div>
+      <div class="price-row"><span class="price">$14.00</span></div>
       <button class="btn-add-cart" onclick="addToCart('Product Name 7', 14.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
     </div>
 
     <div class="product-card">
       <div class="img-container"><img src="https://via.placeholder.com/300x200" class="product-img"></div>
       <div class="product-title">Product Name 8</div>
-      <div class="price-row"><span class="price">$19.99 USDT</span></div>
+      <div class="price-row"><span class="price">$19.99</span></div>
       <button class="btn-add-cart" onclick="addToCart('Product Name 8', 19.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
     </div>
 
@@ -677,9 +634,9 @@
   <div class="bottom-bar" onclick="openModal('cartModal')">
     <div class="cart-summary">
       <i class="fa-solid fa-basket-shopping"></i>
-      <span>View Cart / Pay & Order</span>
+      <span>View Cart / Order</span>
     </div>
-    <div class="total-price" id="totalPrice">$0.00 USDT</div>
+    <div class="total-price" id="totalPrice">$0.00</div>
   </div>
 
   <!-- MODALS -->
@@ -688,28 +645,10 @@
   <div class="modal" id="cartModal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
-      <div class="modal-title"><i class="fa-solid fa-cart-shopping"></i> Complete Your Payment & Order</div>
+      <div class="modal-title"><i class="fa-solid fa-cart-shopping"></i> Complete Your Order</div>
       
       <div id="cartItemsList" style="font-size: 13px; background: #0b0710; padding: 10px; border-radius: 8px; margin-bottom: 12px;">
         No items in cart yet.
-      </div>
-
-      <!-- BINANCE PAYMENT BOX -->
-      <div class="binance-pay-box">
-        <div class="binance-title">
-          <i class="fa-solid fa-qrcode"></i> Pay via Binance Pay (USDT)
-        </div>
-        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">Scan QR Code or copy Pay ID below:</p>
-        
-        <div class="binance-id-row">
-          <span>Binance ID: 841398736</span>
-          <button class="copy-btn" onclick="copyId('841398736')">COPY</button>
-        </div>
-
-        <div class="qr-box">
-          <img src="https://i.ibb.co.com/jkN2Hsq8/binance-1786131273650.png" alt="binance-1786131273650">
-        </div>
-        <p style="font-size: 10px; color: var(--binance-yellow); font-weight: bold;">⚠️ Complete payment & attach proof before submitting order.</p>
       </div>
 
       <!-- Checkout Form -->
@@ -727,16 +666,14 @@
           <input type="text" placeholder="House/Village, Thana, District" required>
         </div>
         <div class="form-group">
-          <label><i class="fa-solid fa-receipt"></i> Binance TxID / Pay ID *</label>
-          <input type="text" placeholder="Enter Binance Transaction ID" required>
+          <label><i class="fa-solid fa-truck"></i> Delivery Area</label>
+          <select>
+            <option>Inside Dhaka ($2.00)</option>
+            <option>Outside Dhaka ($4.00)</option>
+          </select>
         </div>
-        <div class="form-group">
-          <label><i class="fa-solid fa-image"></i> Payment Screenshot *</label>
-          <input type="file" accept="image/*" required style="padding: 6px;">
-        </div>
-
-        <button type="submit" class="btn-add-cart" style="padding: 12px; margin-top: 5px; background: var(--binance-yellow); color: #000; font-weight: bold;">
-          <i class="fa-solid fa-lock"></i> Submit Payment & Place Order
+        <button type="submit" class="btn-add-cart" style="padding: 12px; margin-top: 5px;">
+          <i class="fa-solid fa-check-circle"></i> Confirm Cash on Delivery Order
         </button>
       </form>
     </div>
@@ -748,66 +685,9 @@
       <span class="close-modal" onclick="closeModal('reviewsModal')">&times;</span>
       <div class="modal-title"><i class="fa-solid fa-star"></i> Customer Reviews (100% Real)</div>
       
-      <div class="review-card">
-        <div class="review-user">
-          <div class="user-info">
-            <div class="user-avatar">R</div>
-            <div>
-              <div class="user-name">Rahim Uddin</div>
-              <div class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Buyer</div>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-        </div>
-        <p class="review-comment">Binance Pay দিয়ে পেমেন্ট কনফার্ম করার পর পরই ডেলিভারি প্রসেস শুরু করে দিসি। প্যাকেজিং একদম প্রাইভেট ছিল। দারুণ সার্ভিস!</p>
-        <div class="review-date">2 days ago</div>
+      <div id="reviewCardsContainer">
+        <!-- Dynamic Reviews Will Render Here -->
       </div>
-
-      <div class="review-card">
-        <div class="review-user">
-          <div class="user-info">
-            <div class="user-avatar" style="background:#00b4d8">T</div>
-            <div>
-              <div class="user-name">Tanvir Ahmed</div>
-              <div class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Buyer</div>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-        </div>
-        <p class="review-comment">Same product as shown in the picture! Fast verification and high quality. Recommended!</p>
-        <div class="review-date">3 days ago</div>
-      </div>
-
-      <div class="review-card">
-        <div class="review-user">
-          <div class="user-info">
-            <div class="user-avatar" style="background:#7209b7">S</div>
-            <div>
-              <div class="user-name">Shahadat Hossain</div>
-              <div class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Buyer</div>
-            </div>
-          </div>
-          <div class="review-stars">★★★★★</div>
-        </div>
-        <p class="review-comment">প্যাকেটের ওপর কোনো লেবেল ছিল না, পার্সোনাল সিকিউরিটি ১০০% বজায় রাখছে। ধন্যবাদ নিশি বাজার!</p>
-        <div class="review-date">5 days ago</div>
-      </div>
-
-      <div class="review-card">
-        <div class="review-user">
-          <div class="user-info">
-            <div class="user-avatar" style="background:#38b000">M</div>
-            <div>
-              <div class="user-name">Mahbub Hasan</div>
-              <div class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Buyer</div>
-            </div>
-          </div>
-          <div class="review-stars">★★★★☆</div>
-        </div>
-        <p class="review-comment">দাম হিসেবে জিনিস অনেক প্রিমিয়াম। সার্ভিস ভালো ছিল।</p>
-        <div class="review-date">1 week ago</div>
-      </div>
-
     </div>
   </div>
 
@@ -840,8 +720,112 @@
     let cart = [];
     let total = 0;
 
+    // Review Database linked to Product ID
+    const reviewsData = [
+      {
+        productId: 1, // Premium Eagle Pocket Knife Reviews
+        reviews: [
+          {
+            name: "Sabbir Hossain",
+            avatar: "S",
+            avatarBg: "#ff007f",
+            rating: "★★★★★",
+            comment: "ভাই চাকুটা জাস্ট অসাম! এক হাতেই ওপেন করা যায়, ব্লেড অনেক শ ধারালো আর ওয়েটটাও হাতে একদম পারফেক্ট লাগে। থ্যাঙ্কস নিশি বাজার!",
+            images: ["https://i.ibb.co.com/Y4pGht2G/Screenshot-2026-08-08-015709.png"],
+            date: "1 day ago"
+          },
+          {
+            name: "Imtiaz Ahmed",
+            avatar: "I",
+            avatarBg: "#00b4d8",
+            rating: "★★★★★",
+            comment: "প্যাকেজিং এত গোপনীয় ছিল যে পার্সেল নেওয়ার সময় কেউ বুঝতেই পারেনি ভেতরে কি আছে। চাকুটার ডিজাইন একদম রিয়েল ছবিটার মতোই প্রিমিয়াম।",
+            images: [
+              "https://i.ibb.co.com/9kK5bCD8/Screenshot-2026-08-08-015949.png",
+              "https://i.ibb.co.com/GQdjWbF0/Screenshot-2026-08-08-020006.png"
+            ],
+            date: "3 days ago"
+          },
+          {
+            name: "Tanvir Hasan",
+            avatar: "T",
+            avatarBg: "#7209b7",
+            rating: "★★★★★",
+            comment: "খুবই ফাস্ট ডেলিভারি পাইছি। প্রোডাক্ট মেটাল কোয়ালিটি অনেক শক্তপোক্ত, পকেটে ক্যারি করাও সহজ। ১০০% রিকমেন্ডেড!",
+            images: ["https://i.ibb.co.com/QjM2p5J7/Screenshot-2026-08-08-020253.png"],
+            date: "5 days ago"
+          }
+        ]
+      },
+      {
+        productId: 2,
+        reviews: [
+          {
+            name: "Mahbub Hasan",
+            avatar: "M",
+            avatarBg: "#38b000",
+            rating: "★★★★☆",
+            comment: "দাম হিসেবে জিনিস অনেক প্রিমিয়াম। সার্ভিস ভালো ছিল।",
+            images: [],
+            date: "1 week ago"
+          }
+        ]
+      }
+    ];
+
     function openModal(id) { document.getElementById(id).classList.add('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    function openReviewsModal(productId) {
+      const container = document.getElementById('reviewCardsContainer');
+      container.innerHTML = '';
+
+      let listToRender = [];
+
+      if (productId === 'all') {
+        // Collect all reviews from all products
+        reviewsData.forEach(p => listToRender.push(...p.reviews));
+      } else {
+        // Filter reviews for specific product
+        const prodReviews = reviewsData.find(p => p.productId === productId);
+        if (prodReviews) {
+          listToRender = prodReviews.reviews;
+        }
+      }
+
+      if (listToRender.length === 0) {
+        container.innerHTML = '<p style="font-size:12px; color:var(--text-muted); text-align:center;">No reviews yet for this product.</p>';
+      } else {
+        listToRender.forEach(rev => {
+          let imgsHtml = '';
+          if (rev.images && rev.images.length > 0) {
+            imgsHtml = `<div class="review-images-grid">
+              ${rev.images.map(imgUrl => `<img src="${imgUrl}" class="review-img" alt="Customer Review Pic">`).join('')}
+            </div>`;
+          }
+
+          container.innerHTML += `
+            <div class="review-card">
+              <div class="review-user">
+                <div class="user-info">
+                  <div class="user-avatar" style="background:${rev.avatarBg}">${rev.avatar}</div>
+                  <div>
+                    <div class="user-name">${rev.name}</div>
+                    <div class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Buyer</div>
+                  </div>
+                </div>
+                <div class="review-stars">${rev.rating}</div>
+              </div>
+              <p class="review-comment">${rev.comment}</p>
+              ${imgsHtml}
+              <div class="review-date">${rev.date}</div>
+            </div>
+          `;
+        });
+      }
+
+      openModal('reviewsModal');
+    }
 
     function addToCart(name, price) {
       cart.push({ name, price });
@@ -852,7 +836,7 @@
 
     function updateCartUI() {
       document.getElementById('cartCount').innerText = cart.length;
-      document.getElementById('totalPrice').innerText = '$' + total.toFixed(2) + ' USDT';
+      document.getElementById('totalPrice').innerText = '$' + total.toFixed(2);
       let cartList = document.getElementById('cartItemsList');
       if (cart.length === 0) {
         cartList.innerHTML = 'No items selected yet.';
@@ -860,20 +844,15 @@
         cartList.innerHTML = cart.map(item => `
           <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
             <span>${item.name}</span>
-            <span style="color:var(--binance-yellow); font-weight:bold;">$${item.price} USDT</span>
+            <span style="color:var(--accent); font-weight:bold;">$${item.price}</span>
           </div>
         `).join('');
       }
     }
 
-    function copyId(idText) {
-      navigator.clipboard.writeText(idText);
-      alert('Binance ID copied: ' + idText);
-    }
-
     function confirmOrder(event) {
       event.preventDefault();
-      alert('Payment details submitted! We will verify your TxID & Screenshot shortly.');
+      alert('Order Placed Successfully! We will contact you shortly for confirmation.');
       cart = [];
       total = 0;
       updateCartUI();
