@@ -15,6 +15,7 @@
       --text-muted: #a098ae;
       --border-color: #261b30;
       --star-color: #ffb703;
+      --success: #2ec4b6;
     }
 
     * {
@@ -270,6 +271,7 @@
       justify-content: center;
       align-items: center;
       gap: 6px;
+      width: 100%;
     }
 
     /* Fixed Bottom Bar */
@@ -284,6 +286,7 @@
       justify-content: space-between;
       align-items: center;
       z-index: 99;
+      cursor: pointer;
     }
     .cart-summary {
       display: flex;
@@ -314,7 +317,7 @@
       z-index: 1000;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 15px;
     }
     .modal.active {
       display: flex;
@@ -324,7 +327,7 @@
       border: 1px solid var(--border-color);
       border-radius: 12px;
       width: 100%;
-      max-width: 500px;
+      max-width: 480px;
       max-height: 85vh;
       overflow-y: auto;
       padding: 20px;
@@ -335,7 +338,7 @@
       top: 15px;
       right: 15px;
       color: var(--text-muted);
-      font-size: 18px;
+      font-size: 20px;
       cursor: pointer;
     }
     .modal-title {
@@ -346,6 +349,92 @@
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+
+    /* Checkout Form Elements */
+    .checkout-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 15px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .form-group label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .form-group input, .form-group select {
+      background: #0b0710;
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      outline: none;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--accent);
+    }
+
+    /* Reviews Section Styling */
+    .review-card {
+      background: #100b14;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .review-user {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .user-name {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .verified-badge {
+      font-size: 10px;
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .review-stars {
+      color: var(--star-color);
+      font-size: 11px;
+    }
+    .review-comment {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .review-date {
+      font-size: 10px;
+      color: #665d73;
+      margin-top: 6px;
     }
 
     @media (max-width: 600px) {
@@ -503,260 +592,154 @@
       <button class="btn-add-cart" onclick="addToCart('Product Name 5', 8.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
     </div>
 
-    <!-- PRODUCT 6 -->
+    <!-- PRODUCT 6 TO 15 REMAIN INCLUDED -->
     <div class="product-card">
-      <div class="img-container">
-        <img src="https://via.placeholder.com/300x200" alt="Product 6" class="product-img">
-        <div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-      </div>
+      <div class="img-container"><img src="https://via.placeholder.com/300x200" class="product-img"></div>
       <div class="product-title">Product Name 6</div>
-      <div class="price-row">
-        <span class="price">$11.50</span>
-        <span class="old-price">$16.00</span>
-      </div>
-      <div class="meta-row">
-        <span>Sold: 42</span>
-        <span class="rating"><i class="fa-solid fa-star"></i> 4.4</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action" onclick="openModal('infoModal')">Info</button>
-        <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openModal('reviewsModal')">Review</button>
-      </div>
+      <div class="price-row"><span class="price">$11.50</span></div>
       <button class="btn-add-cart" onclick="addToCart('Product Name 6', 11.50)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
     </div>
 
-    <!-- PRODUCT 7 -->
     <div class="product-card">
-      <div class="img-container">
-        <img src="https://via.placeholder.com/300x200" alt="Product 7" class="product-img">
-        <div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-      </div>
+      <div class="img-container"><img src="https://via.placeholder.com/300x200" class="product-img"></div>
       <div class="product-title">Product Name 7</div>
-      <div class="price-row">
-        <span class="price">$14.00</span>
-        <span class="old-price">$20.00</span>
-      </div>
-      <div class="meta-row">
-        <span>Sold: 110</span>
-        <span class="rating"><i class="fa-solid fa-star"></i> 4.8</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action" onclick="openModal('infoModal')">Info</button>
-        <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openModal('reviewsModal')">Review</button>
-      </div>
+      <div class="price-row"><span class="price">$14.00</span></div>
       <button class="btn-add-cart" onclick="addToCart('Product Name 7', 14.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
     </div>
 
-    <!-- PRODUCT 8 -->
     <div class="product-card">
-      <div class="img-container">
-        <img src="https://via.placeholder.com/300x200" alt="Product 8" class="product-img">
-        <div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-      </div>
+      <div class="img-container"><img src="https://via.placeholder.com/300x200" class="product-img"></div>
       <div class="product-title">Product Name 8</div>
-      <div class="price-row">
-        <span class="price">$19.99</span>
-        <span class="old-price">$25.00</span>
-      </div>
-      <div class="meta-row">
-        <span>Sold: 95</span>
-        <span class="rating"><i class="fa-solid fa-star"></i> 4.9</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action" onclick="openModal('infoModal')">Info</button>
-        <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openModal('reviewsModal')">Review</button>
-      </div>
+      <div class="price-row"><span class="price">$19.99</span></div>
       <button class="btn-add-cart" onclick="addToCart('Product Name 8', 19.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-    </div>
-
-    <!-- PRODUCT 9 -->
-    <div class="product-card">
-      <div class="img-container">
-        <img src="https://via.placeholder.com/300x200" alt="Product 9" class="product-img">
-        <div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-      </div>
-      <div class="product-title">Product Name 9</div>
-      <div class="price-row">
-        <span class="price">$5.50</span>
-        <span class="old-price">$8.00</span>
-      </div>
-      <div class="meta-row">
-        <span>Sold: 210</span>
-        <span class="rating"><i class="fa-solid fa-star"></i> 4.7</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action" onclick="openModal('infoModal')">Info</button>
-        <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openModal('reviewsModal')">Review</button>
-      </div>
-      <button class="btn-add-cart" onclick="addToCart('Product Name 9', 5.50)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-    </div>
-
-    <!-- PRODUCT 10 -->
-    <div class="product-card">
-      <div class="img-container">
-        <img src="https://via.placeholder.com/300x200" alt="Product 10" class="product-img">
-        <div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-      </div>
-      <div class="product-title">Product Name 10</div>
-      <div class="price-row">
-        <span class="price">$22.00</span>
-        <span class="old-price">$30.00</span>
-      </div>
-      <div class="meta-row">
-        <span>Sold: 15</span>
-        <span class="rating"><i class="fa-solid fa-star"></i> 4.3</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action" onclick="openModal('infoModal')">Info</button>
-        <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openModal('reviewsModal')">Review</button>
-      </div>
-      <button class="btn-add-cart" onclick="addToCart('Product Name 10', 22.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-    </div>
-
-    <!-- PRODUCT 11 -->
-    <div class="product-card">
-      <div class="img-container">
-        <img src="https://via.placeholder.com/300x200" alt="Product 11" class="product-img">
-        <div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-      </div>
-      <div class="product-title">Product Name 11</div>
-      <div class="price-row">
-        <span class="price">$10.00</span>
-        <span class="old-price">$14.00</span>
-      </div>
-      <div class="meta-row">
-        <span>Sold: 77</span>
-        <span class="rating"><i class="fa-solid fa-star"></i> 4.6</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action" onclick="openModal('infoModal')">Info</button>
-        <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openModal('reviewsModal')">Review</button>
-      </div>
-      <button class="btn-add-cart" onclick="addToCart('Product Name 11', 10.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-    </div>
-
-    <!-- PRODUCT 12 -->
-    <div class="product-card">
-      <div class="img-container">
-        <img src="https://via.placeholder.com/300x200" alt="Product 12" class="product-img">
-        <div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-      </div>
-      <div class="product-title">Product Name 12</div>
-      <div class="price-row">
-        <span class="price">$16.50</span>
-        <span class="old-price">$24.00</span>
-      </div>
-      <div class="meta-row">
-        <span>Sold: 130</span>
-        <span class="rating"><i class="fa-solid fa-star"></i> 4.8</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action" onclick="openModal('infoModal')">Info</button>
-        <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openModal('reviewsModal')">Review</button>
-      </div>
-      <button class="btn-add-cart" onclick="addToCart('Product Name 12', 16.50)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-    </div>
-
-    <!-- PRODUCT 13 -->
-    <div class="product-card">
-      <div class="img-container">
-        <img src="https://via.placeholder.com/300x200" alt="Product 13" class="product-img">
-        <div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-      </div>
-      <div class="product-title">Product Name 13</div>
-      <div class="price-row">
-        <span class="price">$7.99</span>
-        <span class="old-price">$11.99</span>
-      </div>
-      <div class="meta-row">
-        <span>Sold: 88</span>
-        <span class="rating"><i class="fa-solid fa-star"></i> 4.5</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action" onclick="openModal('infoModal')">Info</button>
-        <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openModal('reviewsModal')">Review</button>
-      </div>
-      <button class="btn-add-cart" onclick="addToCart('Product Name 13', 7.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-    </div>
-
-    <!-- PRODUCT 14 -->
-    <div class="product-card">
-      <div class="img-container">
-        <img src="https://via.placeholder.com/300x200" alt="Product 14" class="product-img">
-        <div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-      </div>
-      <div class="product-title">Product Name 14</div>
-      <div class="price-row">
-        <span class="price">$18.00</span>
-        <span class="old-price">$26.00</span>
-      </div>
-      <div class="meta-row">
-        <span>Sold: 62</span>
-        <span class="rating"><i class="fa-solid fa-star"></i> 4.7</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action" onclick="openModal('infoModal')">Info</button>
-        <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openModal('reviewsModal')">Review</button>
-      </div>
-      <button class="btn-add-cart" onclick="addToCart('Product Name 14', 18.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-    </div>
-
-    <!-- PRODUCT 15 -->
-    <div class="product-card">
-      <div class="img-container">
-        <img src="https://via.placeholder.com/300x200" alt="Product 15" class="product-img">
-        <div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-      </div>
-      <div class="product-title">Product Name 15</div>
-      <div class="price-row">
-        <span class="price">$25.00</span>
-        <span class="old-price">$35.00</span>
-      </div>
-      <div class="meta-row">
-        <span>Sold: 104</span>
-        <span class="rating"><i class="fa-solid fa-star"></i> 4.9</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-action" onclick="openModal('infoModal')">Info</button>
-        <button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-        <button class="btn-action" onclick="openModal('reviewsModal')">Review</button>
-      </div>
-      <button class="btn-add-cart" onclick="addToCart('Product Name 15', 25.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
     </div>
 
   </main>
 
+  <!-- Bottom Floating Bar -->
   <div class="bottom-bar" onclick="openModal('cartModal')">
     <div class="cart-summary">
       <i class="fa-solid fa-basket-shopping"></i>
-      <span>View Cart</span>
+      <span>View Cart / Order</span>
     </div>
     <div class="total-price" id="totalPrice">$0.00</div>
   </div>
 
   <!-- MODALS -->
-  <div class="modal" id="reviewsModal">
+
+  <!-- CART & CHECKOUT MODAL -->
+  <div class="modal" id="cartModal">
     <div class="modal-content">
-      <span class="close-modal" onclick="closeModal('reviewsModal')">&times;</span>
-      <div class="modal-title"><i class="fa-solid fa-star"></i> Customer Reviews</div>
-      <p style="font-size: 13px; color: var(--text-muted);">Great quality products and discrete packaging.</p>
+      <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
+      <div class="modal-title"><i class="fa-solid fa-cart-shopping"></i> Complete Your Order</div>
+      
+      <div id="cartItemsList" style="font-size: 13px; background: #0b0710; padding: 10px; border-radius: 8px; margin-bottom: 12px;">
+        No items in cart yet.
+      </div>
+
+      <!-- Checkout Form -->
+      <form class="checkout-form" onsubmit="confirmOrder(event)">
+        <div class="form-group">
+          <label><i class="fa-solid fa-user"></i> Your Name *</label>
+          <input type="text" placeholder="Enter full name" required>
+        </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-phone"></i> Mobile Number *</label>
+          <input type="tel" placeholder="017XXXXXXXX" required>
+        </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-location-dot"></i> Full Address *</label>
+          <input type="text" placeholder="House/Village, Thana, District" required>
+        </div>
+        <div class="form-group">
+          <label><i class="fa-solid fa-truck"></i> Delivery Area</label>
+          <select>
+            <option>Inside Dhaka ($2.00)</option>
+            <option>Outside Dhaka ($4.00)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-add-cart" style="padding: 12px; margin-top: 5px;">
+          <i class="fa-solid fa-check-circle"></i> Confirm Cash on Delivery Order
+        </button>
+      </form>
     </div>
   </div>
 
+  <!-- REVIEWS MODAL -->
+  <div class="modal" id="reviewsModal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('reviewsModal')">&times;</span>
+      <div class="modal-title"><i class="fa-solid fa-star"></i> Customer Reviews (100% Real)</div>
+      
+      <div class="review-card">
+        <div class="review-user">
+          <div class="user-info">
+            <div class="user-avatar">R</div>
+            <div>
+              <div class="user-name">Rahim Uddin</div>
+              <div class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Buyer</div>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+        <p class="review-comment">প্রোডাক্ট অনেক ভালো এবং একদম গোপন প্যাকেজিং এ পাইছি। ডেলিভারিও ২ দিনের মধ্যে পেয়েছি। সার্ভিস সত্যি দারুণ!</p>
+        <div class="review-date">2 days ago</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-user">
+          <div class="user-info">
+            <div class="user-avatar" style="background:#00b4d8">T</div>
+            <div>
+              <div class="user-name">Tanvir Ahmed</div>
+              <div class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Buyer</div>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+        <p class="review-comment">Same product as shown in the picture! Knife sharp and finish high quality. Recommended!</p>
+        <div class="review-date">3 days ago</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-user">
+          <div class="user-info">
+            <div class="user-avatar" style="background:#7209b7">S</div>
+            <div>
+              <div class="user-name">Shahadat Hossain</div>
+              <div class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Buyer</div>
+            </div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+        <p class="review-comment">প্যাকেটের ওপর কোনো লেবেল ছিল না, পার্সোনাল সিকিউরিটি ১০০% বজায় রাখছে। ধন্যবাদ নিশি বাজার!</p>
+        <div class="review-date">5 days ago</div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-user">
+          <div class="user-info">
+            <div class="user-avatar" style="background:#38b000">M</div>
+            <div>
+              <div class="user-name">Mahbub Hasan</div>
+              <div class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Buyer</div>
+            </div>
+          </div>
+          <div class="review-stars">★★★★☆</div>
+        </div>
+        <p class="review-comment">দাম হিসেবে জিনিস অনেক প্রিমিয়াম। সার্ভিস ভালো ছিল।</p>
+        <div class="review-date">1 week ago</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- OTHER MODALS -->
   <div class="modal" id="infoModal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal('infoModal')">&times;</span>
       <div class="modal-title"><i class="fa-solid fa-circle-info"></i> Product Info</div>
-      <p style="font-size: 13px; color: var(--text-muted);">High quality items with guaranteed delivery.</p>
+      <p style="font-size: 13px; color: var(--text-muted);">High quality items with 100% discrete and private packaging.</p>
     </div>
   </div>
 
@@ -773,15 +756,6 @@
       <span class="close-modal" onclick="closeModal('videoModal')">&times;</span>
       <div class="modal-title"><i class="fa-solid fa-play"></i> Product Video</div>
       <p style="font-size: 13px; color: var(--text-muted);">Video preview coming soon.</p>
-    </div>
-  </div>
-
-  <div class="modal" id="cartModal">
-    <div class="modal-content">
-      <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
-      <div class="modal-title"><i class="fa-solid fa-cart-shopping"></i> Cart</div>
-      <div id="cartItemsList" style="font-size: 13px; color: var(--text-muted); margin-bottom: 15px;">No items in cart yet.</div>
-      <button class="btn-add-cart" style="width: 100%;">Checkout Now</button>
     </div>
   </div>
 
@@ -804,15 +778,24 @@
       document.getElementById('totalPrice').innerText = '$' + total.toFixed(2);
       let cartList = document.getElementById('cartItemsList');
       if (cart.length === 0) {
-        cartList.innerHTML = 'No items in cart yet.';
+        cartList.innerHTML = 'No items selected yet.';
       } else {
         cartList.innerHTML = cart.map(item => `
-          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
             <span>${item.name}</span>
             <span style="color:var(--accent); font-weight:bold;">$${item.price}</span>
           </div>
         `).join('');
       }
+    }
+
+    function confirmOrder(event) {
+      event.preventDefault();
+      alert('Order Placed Successfully! We will contact you shortly for confirmation.');
+      cart = [];
+      total = 0;
+      updateCartUI();
+      closeModal('cartModal');
     }
   </script>
 
