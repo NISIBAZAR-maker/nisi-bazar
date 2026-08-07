@@ -1,47 +1,58 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nisi Bazar</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Base Reset & Variables */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
-        /* Requirement 2: Styled Dark Gradient Background */
+        /* UPDATE 2: Background with subtle glowing gradient */
         body {
-            background: radial-gradient(circle at top left, #1f0814, #0d0d12 60%, #050508);
+            background: radial-gradient(circle at top left, #2c0b1e, #0c0d12 50%, #050508);
             color: #ffffff;
             min-height: 100vh;
-            padding-bottom: 80px;
+            padding-bottom: 90px;
         }
 
-        /* Header Layout */
+        /* Header */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 30px;
-            background: rgba(13, 13, 18, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 0, 127, 0.2);
+            background: rgba(12, 13, 18, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 0, 127, 0.15);
             position: sticky;
             top: 0;
             z-index: 100;
         }
 
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+        }
+
         .logo {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 18px;
+            font-weight: 800;
             color: #ff007f;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
+        }
+
+        .tagline {
+            font-size: 8px;
+            color: #888;
             letter-spacing: 1px;
+            margin-top: 2px;
         }
 
         .header-actions {
@@ -50,18 +61,19 @@
             gap: 15px;
         }
 
-        /* Requirement 3: Customer Reviews Popup Button */
+        /* UPDATE 3: Customer Reviews Popup Trigger Button */
         .btn-reviews-popup {
-            background: rgba(255, 0, 127, 0.15);
+            background: rgba(255, 0, 127, 0.12);
             color: #ff007f;
             border: 1px solid #ff007f;
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 20px;
             cursor: pointer;
+            font-size: 13px;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             transition: all 0.3s ease;
             box-shadow: 0 0 10px rgba(255, 0, 127, 0.2);
         }
@@ -69,31 +81,31 @@
         .btn-reviews-popup:hover {
             background: #ff007f;
             color: #fff;
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.6);
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.5);
         }
 
         .cart-icon {
             position: relative;
             background: rgba(255, 0, 127, 0.1);
             border: 1px solid #ff007f;
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             color: #ff007f;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.2);
         }
 
         .cart-badge {
             position: absolute;
-            top: -5px;
-            right: -5px;
+            top: -4px;
+            right: -4px;
             background: #ff007f;
             color: white;
-            font-size: 12px;
+            font-size: 11px;
             width: 18px;
             height: 18px;
             border-radius: 50%;
@@ -103,91 +115,174 @@
             font-weight: bold;
         }
 
-        /* Main Content Grid */
+        /* Container & Categories */
         .container {
-            max-width: 1200px;
-            margin: 30px auto;
+            max-width: 1280px;
+            margin: 20px auto;
             padding: 0 20px;
         }
 
-        .section-title {
-            margin-bottom: 20px;
-            font-size: 22px;
+        .categories {
             display: flex;
-            align-items: center;
             gap: 10px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding-bottom: 5px;
         }
 
+        .cat-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .cat-btn.active {
+            background: #ff007f;
+            border-color: #ff007f;
+            color: white;
+            font-weight: 600;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .discount-info {
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        /* Product Grid */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 20px;
         }
 
-        /* Product Card Styling */
         .product-card {
-            background: rgba(25, 25, 35, 0.7);
+            background: rgba(18, 18, 26, 0.75);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 15px;
+            border-radius: 10px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            transition: transform 0.3s ease;
+            gap: 10px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 0, 127, 0.4);
+        .img-container {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            background: #14141d;
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .product-img {
             width: 100%;
-            height: 160px;
+            height: 100%;
             object-fit: cover;
-            border-radius: 8px;
-            background-color: #1a1a24;
+        }
+
+        .video-tag {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .video-tag i {
+            color: #ff007f;
+            font-size: 8px;
         }
 
         .product-title {
-            font-size: 15px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 500;
+            color: #eee;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .price-row {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            align-items: baseline;
+            gap: 8px;
         }
 
         .price {
             color: #ff007f;
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 15px;
+            font-weight: 700;
         }
 
         .old-price {
-            color: #888;
+            color: #666;
             text-decoration: line-through;
-            font-size: 13px;
+            font-size: 11px;
         }
 
-        /* Requirement 1: Highly Visible Action Buttons (Info, Chat, Review) */
+        .meta-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #777;
+        }
+
+        .rating {
+            color: #ffb400;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 11px;
+        }
+
+        /* UPDATE 1: Highly Visible Buttons */
         .card-actions {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
+            gap: 6px;
         }
 
         .btn-action {
             background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 0, 127, 0.5); /* Glowing outline */
+            border: 1px solid rgba(255, 0, 127, 0.5);
             color: #ffffff;
-            padding: 8px 0;
-            border-radius: 6px;
+            padding: 6px 0;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             transition: all 0.2s ease;
             text-align: center;
@@ -196,30 +291,65 @@
         .btn-action:hover {
             background: #ff007f;
             border-color: #ff007f;
-            color: #fff;
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
+            box-shadow: 0 0 8px rgba(255, 0, 127, 0.5);
         }
 
         .btn-add-cart {
             background: #ff007f;
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: bold;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 600;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 8px;
-            transition: background 0.3s;
+            gap: 6px;
+            transition: background 0.2s;
         }
 
         .btn-add-cart:hover {
             background: #e0006f;
         }
 
-        /* Customer Reviews Modal/Popup Styling */
+        /* Bottom Cart Bar */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #ff007f;
+            padding: 12px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 99;
+            box-shadow: 0 -5px 20px rgba(255, 0, 127, 0.3);
+        }
+
+        .view-cart-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .total-price {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        /* Customer Reviews Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -235,15 +365,13 @@
         }
 
         .modal-content {
-            background: #15151e;
+            background: #14141d;
             border: 1px solid #ff007f;
             width: 90%;
-            max-width: 500px;
-            border-radius: 12px;
+            max-width: 480px;
+            border-radius: 10px;
             padding: 20px;
             box-shadow: 0 0 25px rgba(255, 0, 127, 0.3);
-            max-height: 80vh;
-            overflow-y: auto;
         }
 
         .modal-header {
@@ -269,27 +397,27 @@
 
         .review-item {
             background: rgba(255, 255, 255, 0.03);
-            padding: 12px;
-            border-radius: 8px;
+            padding: 10px 12px;
+            border-radius: 6px;
             margin-bottom: 10px;
             border-left: 3px solid #ff007f;
         }
 
         .review-user {
             font-weight: bold;
-            font-size: 14px;
+            font-size: 13px;
             color: #ff007f;
         }
 
         .review-stars {
-            color: #ffc107;
-            font-size: 12px;
-            margin: 3px 0;
+            color: #ffb400;
+            font-size: 11px;
+            margin: 2px 0;
         }
 
         .review-text {
-            font-size: 13px;
-            color: #ddd;
+            font-size: 12px;
+            color: #ccc;
         }
     </style>
 </head>
@@ -297,64 +425,192 @@
 
     <!-- Header -->
     <header>
-        <div class="logo">Nisi Bazar</div>
+        <div class="logo-container">
+            <div class="logo">Nisi Bazar</div>
+            <div class="tagline">PRIVATE • DISCREET • TRUSTED</div>
+        </div>
         <div class="header-actions">
-            <!-- Customer Reviews Popup Trigger Button -->
+            <!-- UPDATE 3: Review Button -->
             <button class="btn-reviews-popup" id="openReviewsBtn">
                 <i class="fa-solid fa-star"></i> Reviews
             </button>
             <div class="cart-icon">
-                <i class="fa-solid fa-cart-shopping"></i>
+                <i class="fa-solid fa-shopping-bag"></i>
                 <span class="cart-badge">1</span>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
     <div class="container">
-        <h2 class="section-title"><i class="fa-solid fa-fire" style="color:#ff007f;"></i> Featured Products</h2>
-        
+        <!-- Categories -->
+        <div class="categories">
+            <button class="cat-btn active">All Categories</button>
+            <button class="cat-btn">Lifestyle</button>
+            <button class="cat-btn">Gadgets</button>
+            <button class="cat-btn">Fashion</button>
+            <button class="cat-btn">Care</button>
+        </div>
+
+        <div class="section-header">
+            <div class="section-title">
+                <i class="fa-solid fa-fire" style="color: #ff007f;"></i> Featured Products
+            </div>
+            <div class="discount-info">100% Discreet Shipping</div>
+        </div>
+
+        <!-- 6 Products Grid -->
         <div class="product-grid">
-            <!-- Product Card Example -->
+            
+            <!-- Product 1 -->
             <div class="product-card">
-                <img src="https://via.placeholder.com/250x160" alt="Product" class="product-img">
+                <div class="img-container">
+                    <img src="https://via.placeholder.com/300x200?text=Flask" alt="Water Flask" class="product-img">
+                    <div class="video-tag"><i class="fa-solid fa-play"></i> Video</div>
+                </div>
                 <div class="product-title">Premium Stainless Water Flask 1L</div>
                 <div class="price-row">
                     <span class="price">$15.99</span>
                     <span class="old-price">$19.99</span>
                 </div>
-                <!-- Visibly Enhanced Buttons -->
+                <div class="meta-row">
+                    <span>Sold: 142</span>
+                    <span class="rating"><i class="fa-solid fa-star"></i> 4.8</span>
+                </div>
                 <div class="card-actions">
                     <button class="btn-action">Info</button>
                     <button class="btn-action">Chat</button>
                     <button class="btn-action">Review</button>
                 </div>
-                <button class="btn-add-cart">
-                    <i class="fa-solid fa-cart-plus"></i> Add to Cart
-                </button>
+                <button class="btn-add-cart"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
             </div>
 
-            <!-- Product Card Example 2 -->
+            <!-- Product 2 -->
             <div class="product-card">
-                <img src="https://via.placeholder.com/250x160" alt="Product" class="product-img">
+                <div class="img-container">
+                    <img src="https://via.placeholder.com/300x200?text=Turbo+Fan" alt="Mini Turbo Fan" class="product-img">
+                    <div class="video-tag"><i class="fa-solid fa-play"></i> Video</div>
+                </div>
                 <div class="product-title">Rechargeable Mini Turbo Fan</div>
                 <div class="price-row">
                     <span class="price">$12.50</span>
                     <span class="old-price">$16.00</span>
                 </div>
+                <div class="meta-row">
+                    <span>Sold: 208</span>
+                    <span class="rating"><i class="fa-solid fa-star"></i> 4.6</span>
+                </div>
                 <div class="card-actions">
                     <button class="btn-action">Info</button>
                     <button class="btn-action">Chat</button>
                     <button class="btn-action">Review</button>
                 </div>
-                <button class="btn-add-cart">
-                    <i class="fa-solid fa-cart-plus"></i> Add to Cart
-                </button>
+                <button class="btn-add-cart"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
             </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="img-container">
+                    <img src="https://via.placeholder.com/300x200?text=Sports+Cap" alt="Sports Cap" class="product-img">
+                    <div class="video-tag"><i class="fa-solid fa-play"></i> Video</div>
+                </div>
+                <div class="product-title">Pro Sports Cap UV Protection</div>
+                <div class="price-row">
+                    <span class="price">$8.99</span>
+                    <span class="old-price">$12.99</span>
+                </div>
+                <div class="meta-row">
+                    <span>Sold: 84</span>
+                    <span class="rating"><i class="fa-solid fa-star"></i> 4.4</span>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-action">Info</button>
+                    <button class="btn-action">Chat</button>
+                    <button class="btn-action">Review</button>
+                </div>
+                <button class="btn-add-cart"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="img-container">
+                    <img src="https://via.placeholder.com/300x200?text=Juice+Blender" alt="Juice Blender" class="product-img">
+                    <div class="video-tag"><i class="fa-solid fa-play"></i> Video</div>
+                </div>
+                <div class="product-title">Portable Wireless Juice Blender</div>
+                <div class="price-row">
+                    <span class="price">$24.99</span>
+                    <span class="old-price">$32.00</span>
+                </div>
+                <div class="meta-row">
+                    <span>Sold: 131</span>
+                    <span class="rating"><i class="fa-solid fa-star"></i> 4.7</span>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-action">Info</button>
+                    <button class="btn-action">Chat</button>
+                    <button class="btn-action">Review</button>
+                </div>
+                <button class="btn-add-cart"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <div class="img-container">
+                    <img src="https://via.placeholder.com/300x200?text=Lunch+Box" alt="Lunch Box" class="product-img">
+                    <div class="video-tag"><i class="fa-solid fa-play"></i> Video</div>
+                </div>
+                <div class="product-title">Insulated Thermal Lunch Box</div>
+                <div class="price-row">
+                    <span class="price">$18.50</span>
+                    <span class="old-price">$22.00</span>
+                </div>
+                <div class="meta-row">
+                    <span>Sold: 75</span>
+                    <span class="rating"><i class="fa-solid fa-star"></i> 4.5</span>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-action">Info</button>
+                    <button class="btn-action">Chat</button>
+                    <button class="btn-action">Review</button>
+                </div>
+                <button class="btn-add-cart"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card">
+                <div class="img-container">
+                    <img src="https://via.placeholder.com/300x200?text=Sunscreen" alt="Sunscreen Gel" class="product-img">
+                    <div class="video-tag"><i class="fa-solid fa-play"></i> Video</div>
+                </div>
+                <div class="product-title">Hydrating Sunscreen Gel SPF50+</div>
+                <div class="price-row">
+                    <span class="price">$14.00</span>
+                    <span class="old-price">$18.00</span>
+                </div>
+                <div class="meta-row">
+                    <span>Sold: 310</span>
+                    <span class="rating"><i class="fa-solid fa-star"></i> 4.9</span>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-action">Info</button>
+                    <button class="btn-action">Chat</button>
+                    <button class="btn-action">Review</button>
+                </div>
+                <button class="btn-add-cart"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+            </div>
+
         </div>
     </div>
 
-    <!-- Customer Reviews Modal Popup -->
+    <!-- Bottom Fixed Cart Bar -->
+    <div class="bottom-bar">
+        <button class="view-cart-btn">
+            <i class="fa-solid fa-basket-shopping"></i> View Cart
+        </button>
+        <span class="total-price">$0.00</span>
+    </div>
+
+    <!-- Reviews Modal -->
     <div class="modal-overlay" id="reviewsModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -365,18 +621,17 @@
                 <div class="review-item">
                     <div class="review-user">Sanaul Islam</div>
                     <div class="review-stars">★★★★★</div>
-                    <div class="review-text">Product quality is top-notch! Super fast delivery.</div>
+                    <div class="review-text">Great quality products and discrete packaging!</div>
                 </div>
                 <div class="review-item">
-                    <div class="review-user">Tanvir Ahmed</div>
+                    <div class="review-user">Arefin Ahmed</div>
                     <div class="review-stars">★★★★☆</div>
-                    <div class="review-text">Very good dark theme design and customer support is fast.</div>
+                    <div class="review-text">Fast delivery and the UI looks incredible now.</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript for Popup Logic -->
     <script>
         const modal = document.getElementById('reviewsModal');
         const openBtn = document.getElementById('openReviewsBtn');
