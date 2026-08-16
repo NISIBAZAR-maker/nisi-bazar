@@ -1,865 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NISI BAZAR</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root {
---bg-color: #0b0710;
---card-bg: #15101a;
---accent: #ff007f;
---accent-hover: #e0006f;
---text-main: #ffffff;
---text-muted: #a098ae;
---border-color: #261b30;
---star-color: #ffb703;
---success: #2ec4b6;
-}
+import os
+import telebot
+import google.generativeai as genai
 
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-}
+# Fetching API tokens from Github Secrets / Environment Variables
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
-body {
-background-color: var(--bg-color);
-color: var(--text-main);
-min-height: 100vh;
-display: flex;
-flex-direction: column;
-padding-bottom: 70px;
-}
+# Initialize Telegram Bot & Gemini AI
+bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
+genai.configure(api_key=GEMINI_API_KEY)
 
-/* Top Bar */
-.top-bar {
-background: #000000;
-color: var(--text-muted);
-font-size: 11px;
-padding: 6px 0;
-overflow: hidden;
-white-space: nowrap;
-border-bottom: 1px solid var(--border-color);
-}
-.marquee {
-display: inline-block;
-animation: scroll 20s linear infinite;
-}
-@keyframes scroll {
-0% { transform: translateX(100%); }
-100% { transform: translateX(-100%); }
-}
+# Using Gemini 1.5 Flash (Free Tier with Vision Capability)
+model = genai.GenerativeModel('gemini-1.5-flash')
 
-/* Header */
-header {
-background-color: var(--card-bg);
-padding: 12px 20px;
-display: flex;
-justify-content: space-between;
-align-items: center;
-border-bottom: 1px solid var(--border-color);
-position: sticky;
-top: 0;
-z-index: 100;
-}
+# SYSTEM PROMPT BASED ON YOUR TRADING BLUEPRINT
+SYSTEM_PROMPT = """
+You are an elite Institutional Forex & Crypto Trader, Quantitative Analyst, and Technical Master.
+Your task is to analyze the user's trading chart image with 100% precision using the Master Trading Blueprint provided below.
 
-.brand-logo {
-display: flex;
-align-items: center;
-gap: 10px;
-text-decoration: none;
-}
-.brand-icon {
-color: var(--accent);
-font-size: 22px;
-}
-.brand-text h1 {
-color: var(--accent);
-font-size: 18px;
-font-weight: 800;
-letter-spacing: 1px;
-}
-.brand-text p {
-color: var(--text-muted);
-font-size: 8px;
-letter-spacing: 1.5px;
-}
+=== SYSTEM BLUEPRINT RULES & KNOWLEDGE BASE ===
+1. MARKET MICROSTRUCTURE & SESSIONS:
+   - Identify active session dynamics (London/NY overlap highest liquidity, Asian session choppy).
+   - Evaluate Key Levels (Support/Resistance, Supply/Demand, Order Blocks) with Liquidity/Stop-Hunt Buffer awareness.
 
-.header-right {
-display: flex;
-align-items: center;
-gap: 12px;
-}
+2. FUNDAMENTAL & MACRO CONTEXT:
+   - Evaluate Current Central Bank Stance (Fed, ECB, BoE, BoJ, SNB, RBA, RBNZ, BoC). Hawkish = Buy, Dovish = Sell.
+   - Consider Risk Sentiment: Risk-On (AUD, NZD, CAD strong / JPY, CHF weak) vs Risk-Off (USD, JPY, CHF safe havens strong).
+   - Note Key Data Drivers: NFP, CPI, Rate Decisions, PMI, Retail Sales, Crude Oil links (CAD/NOK), Gold links (AUD).
 
-.btn-review-trigger {
-background: rgba(255, 0, 127, 0.1);
-color: var(--accent);
-border: 1px solid var(--accent);
-padding: 6px 12px;
-border-radius: 20px;
-font-size: 12px;
-font-weight: 600;
-cursor: pointer;
-display: flex;
-align-items: center;
-gap: 5px;
-}
+3. TECHNICAL ANALYSIS:
+   - Market Structure: Higher Highs/Higher Lows (Uptrend) or Lower Highs/Lower Lows (Downtrend) or Ranging.
+   - Candlestick Patterns: Pin bars, Engulfing, Doji, Liquidity Sweeps, Fair Value Gaps (FVG).
+   - Indicators: Trend confirmation, Overbought/Oversold conditions, Divergence.
 
-.cart-trigger {
-background: var(--accent);
-color: #fff;
-width: 38px;
-height: 38px;
-border-radius: 50%;
-display: flex;
-justify-content: center;
-align-items: center;
-position: relative;
-cursor: pointer;
-}
-.cart-count {
-position: absolute;
-top: -4px;
-right: -4px;
-background: #fff;
-color: var(--accent);
-font-size: 10px;
-font-weight: bold;
-width: 18px;
-height: 18px;
-border-radius: 50%;
-display: flex;
-justify-content: center;
-align-items: center;
-}
+4. RISK MANAGEMENT & EXECUTION (CRITICAL):
+   - Always suggest proper Stop Loss placement with ATR/Structure Buffer (avoid round number stop hunts).
+   - Recommended Risk/Reward Ratio: Minimum 1:2.
 
-.section-header {
-padding: 15px 20px 5px;
-display: flex;
-align-items: center;
-gap: 8px;
-}
-.section-header h2 {
-font-size: 16px;
-font-weight: 700;
-}
-.section-header i {
-color: var(--accent);
-}
+=== OUTPUT FORMAT REQUIREMENTS ===
+Analyze the uploaded chart and respond strictly in simple, professional Bengali using clear markdown formatting as follows:
 
-/* Grid Layout */
-.products-container {
-padding: 15px;
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-gap: 15px;
-}
+🎯 **অ্যাসেট ও টাইমফ্রেম:** [যেমন: EUR/USD - 1H / 4H]
+📈 **মার্কেট বায়াস (Bias):** [BULLISH / BEARISH / NEUTRAL]
 
-.product-card {
-background: var(--card-bg);
-border: 1px solid var(--border-color);
-border-radius: 12px;
-padding: 12px;
-display: flex;
-flex-direction: column;
-gap: 10px;
-position: relative;
-}
+---
 
-.img-container {
-width: 100%;
-height: 220px;
-background: #000;
-border-radius: 8px;
-position: relative;
-overflow: hidden;
-display: flex;
-justify-content: center;
-align-items: center;
-}
-.product-img {
-width: 100%;
-height: 100%;
-object-fit: contain;
-padding: 5px;
-}
+### 🔍 ১. টেকনিক্যাল অ্যানালিসিস (Technical Analysis)
+* **মার্কেট স্ট্রাকচার:** [Uptrend / Downtrend / Sideways / Range Breakout]
+* **মূল লেভেলসমূহ:**
+  - **প্রধান রেসিস্ট্যান্স (Key Resistance):** [দাম উল্লেখ করুন]
+  - **প্রধান সাপোর্ট (Key Support):** [দাম উল্লেখ করুন]
+* **ক্যান্ডেলস্টিক ও প্যাটার্ন:** [যেমন: Bullish Engulfing, Order Block, Liquidity Sweep, FVG ইত্যাদি]
+* **ইন্ডিকেটর/অ্যাকশন সিগন্যাল:** [RSI, Moving Average বা Trendline বিশ্লেষণ]
 
-.video-tag {
-position: absolute;
-top: 8px;
-right: 8px;
-background: rgba(0, 0, 0, 0.75);
-border: 1px solid rgba(255, 255, 255, 0.2);
-color: #fff;
-font-size: 10px;
-padding: 4px 8px;
-border-radius: 4px;
-display: flex;
-align-items: center;
-gap: 4px;
-cursor: pointer;
-}
-.video-tag i {
-color: var(--accent);
-font-size: 8px;
-}
+---
 
-.product-title {
-font-size: 14px;
-font-weight: 600;
-color: var(--text-main);
-line-height: 1.3;
-}
+### 🌐 ২. ফান্ডামেন্টাল ও সেন্টিমেন্টাল আপডেট (Fundamental Overview)
+* **সেন্ট্রাল ব্যাংক সেন্ট্রাল ভিউ:** [Hawkish / Dovish অবস্থান]
+* **রিস্ক সেন্টিমেন্ট:** [Risk-On / Risk-Off আবহাওয়া]
+* **ক্যালেন্ডার প্রভাব:** [NFP, CPI, Interest Rate বা বর্তমান কোনো ইমপ্যাক্ট নিউজ]
+* **ইন্টার-মার্কেট লিঙ্ক:** [যেমন: ক্রুড অয়েল/গোল্ডের প্রভাবে সম্পর্কিত কারেন্সির গতি]
 
-.price-row {
-display: flex;
-align-items: baseline;
-gap: 8px;
-}
-.price {
-color: var(--accent);
-font-size: 18px;
-font-weight: 700;
-}
-.old-price {
-color: var(--text-muted);
-font-size: 12px;
-text-decoration: line-through;
-}
+---
 
-.meta-row {
-display: flex;
-justify-content: space-between;
-font-size: 11px;
-color: var(--text-muted);
-}
-.rating {
-color: var(--star-color);
-display: flex;
-align-items: center;
-gap: 3px;
-}
+### 💡 ৩. এক্সিকিউশন প্ল্যান ও রিস্ক ম্যানেজমেন্ট (Trade Setup)
+* **এন্ট্রি জোন (Entry Zone):** [কত দামে এন্ট্রি নিতে পারেন / Limit Order পরামর্শ]
+* **স্টপ লস (Stop Loss - SL):** [স্মার্ট বাফার সহ নির্দিষ্ট প্রাইস লেভেল]
+* **টেক প্রফিট (Take Profit - TP1 & TP2):** [টার্গেট প্রাইসসমূহ]
+* **রিস্ক/রিওয়ার্ড রেশিও (R:R):** [কমপক্ষে ১:২ নিশ্চিত করুন]
 
-.card-actions {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 6px;
-}
-.btn-action {
-background: #1f1826;
-border: 1px solid var(--border-color);
-color: var(--text-main);
-padding: 6px;
-border-radius: 6px;
-font-size: 11px;
-cursor: pointer;
-}
+---
 
-.btn-add-cart {
-background: var(--accent);
-color: #fff;
-border: none;
-padding: 10px;
-border-radius: 6px;
-font-weight: 700;
-font-size: 13px;
-cursor: pointer;
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 6px;
-width: 100%;
-}
+⚠️ **বিশেষ সতর্কতা (Trader's Caution):** [স্টপ হান্ট, স্প্রেড বা সামনে কোনো হাই-ইমপ্যাক্ট নিউজের সতর্কতা থাকলে দিন]
+"""
 
-/* Fixed Bottom Bar */
-.bottom-bar {
-position: fixed;
-bottom: 0;
-left: 0;
-width: 100%;
-background: var(--accent);
-padding: 12px 20px;
-display: flex;
-justify-content: space-between;
-align-items: center;
-z-index: 99;
-cursor: pointer;
-}
-.cart-summary {
-display: flex;
-align-items: center;
-gap: 10px;
-color: #fff;
-font-weight: 700;
-font-size: 14px;
-}
-.total-price {
-background: #fff;
-color: var(--accent);
-padding: 4px 12px;
-border-radius: 12px;
-font-size: 12px;
-font-weight: 800;
-}
+@bot.message_handler(commands=['start', 'help'])
+def send_welcome(message):
+    welcome_text = (
+        "👋 **স্বাগতম প্রাতিষ্ঠানিক ট্রেডিং অ্যানালাইসিস বটে!**\n\n"
+        "আপনার ট্রেডিং চার্টের একটি স্পষ্ট স্ক্রিনশট (Screenshot) চ্যাটে পাঠান।\n"
+        "বটটি ব্লুপ্রিন্ট অনুযায়ী ইন্সট্যান্ট **ইনস্টিটিউশনাল টেকনিক্যাল + ফান্ডামেন্টাল অ্যানালিসিস** করে দেবে।\n\n"
+        "💡 *টিপস: চার্টে টাইমফ্রেম ও পেয়ারের নাম স্পষ্ট থাকলে বিশ্লেষণ সবচেয়ে নিখুঁত হয়।*"
+    )
+    bot.reply_to(message, welcome_text, parse_mode="Markdown")
 
-/* Modals */
-.modal {
-display: none;
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(0, 0, 0, 0.85);
-z-index: 1000;
-justify-content: center;
-align-items: center;
-padding: 15px;
-}
-.modal.active {
-display: flex;
-}
-.modal-content {
-background: var(--card-bg);
-border: 1px solid var(--border-color);
-border-radius: 12px;
-width: 100%;
-max-width: 480px;
-max-height: 85vh;
-overflow-y: auto;
-padding: 20px;
-position: relative;
-}
-.close-modal {
-position: absolute;
-top: 15px;
-right: 15px;
-color: var(--text-muted);
-font-size: 20px;
-cursor: pointer;
-}
-.modal-title {
-font-size: 16px;
-font-weight: 700;
-margin-bottom: 15px;
-color: var(--accent);
-display: flex;
-align-items: center;
-gap: 8px;
-}
+@bot.message_handler(content_types=['photo'])
+def handle_photo(message):
+    processing_msg = bot.reply_to(
+        message, 
+        "🔍 **চার্ট প্রসেস করা হচ্ছে...**\nমার্কেট স্ট্রাকচার, সেন্ট্রাল ব্যাংক সেন্টিমেন্ট ও টেকনিক্যাল লেভেল বিশ্লেষণ করা হচ্ছে। কিছু মুহূর্ত অপেক্ষা করুন।",
+        parse_mode="Markdown"
+    )
+    
+    image_path = "temp_chart.jpg"
+    try:
+        # Download highest resolution photo sent by user
+        file_info = bot.get_file(message.photo[-1].file_id)
+        downloaded_file = bot.download_file(file_info.file_path)
+        
+        with open(image_path, 'wb') as new_file:
+            new_file.write(downloaded_file)
+            
+        # Upload image to Gemini Engine
+        uploaded_image = genai.upload_file(path=image_path, display_name="Trading_Chart")
+        
+        # Generate Response from Gemini Pro Vision Model
+        response = model.generate_content([uploaded_image, SYSTEM_PROMPT])
+        
+        # Edit processing message or send new message with results
+        bot.delete_message(message.chat.id, processing_msg.message_id)
+        bot.reply_to(message, response.text, parse_mode="Markdown")
+        
+    except Exception as e:
+        bot.reply_to(message, f"❌ অ্যানালিসিসে সমস্যা হয়েছে: `{str(e)}`", parse_mode="Markdown")
+        
+    finally:
+        # Delete temporary image from server
+        if os.path.exists(image_path):
+            os.remove(image_path)
 
-/* Checkout Form Elements */
-.checkout-form {
-display: flex;
-flex-direction: column;
-gap: 12px;
-margin-top: 15px;
-}
-.form-group {
-display: flex;
-flex-direction: column;
-gap: 5px;
-}
-.form-group label {
-font-size: 12px;
-color: var(--text-muted);
-}
-.form-group input, .form-group select {
-background: #0b0710;
-border: 1px solid var(--border-color);
-color: #fff;
-padding: 10px;
-border-radius: 6px;
-font-size: 13px;
-outline: none;
-}
-.form-group input:focus, .form-group select:focus {
-border-color: var(--accent);
-}
-
-/* Reviews Section Styling */
-.review-card {
-background: #100b14;
-border: 1px solid var(--border-color);
-border-radius: 8px;
-padding: 12px;
-margin-bottom: 12px;
-}
-.review-user {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 6px;
-}
-.user-info {
-display: flex;
-align-items: center;
-gap: 8px;
-}
-.user-avatar {
-width: 32px;
-height: 32px;
-border-radius: 50%;
-background: var(--accent);
-color: #fff;
-display: flex;
-align-items: center;
-justify-content: center;
-font-weight: bold;
-font-size: 13px;
-}
-.user-name {
-font-size: 13px;
-font-weight: 600;
-}
-.verified-badge {
-font-size: 10px;
-color: var(--success);
-display: flex;
-align-items: center;
-gap: 2px;
-}
-.review-stars {
-color: var(--star-color);
-font-size: 11px;
-}
-.review-comment {
-font-size: 12px;
-color: var(--text-muted);
-line-height: 1.4;
-margin-bottom: 8px;
-}
-.review-images-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-gap: 8px;
-margin-top: 8px;
-}
-.review-img {
-width: 100%;
-max-height: 250px;
-object-fit: contain;
-background: #000;
-border-radius: 6px;
-border: 1px solid var(--border-color);
-}
-.review-date {
-font-size: 10px;
-color: #665d73;
-margin-top: 6px;
-}
-
-@media (max-width: 600px) {
-header { padding: 10px 15px; }
-.brand-text h1 { font-size: 16px; }
-.brand-text p { font-size: 7px; }
-.img-container { height: 200px; }
-}
-</style>
-</head>
-<body>
-
-<div class="top-bar">
-<div class="marquee">🔒 100% Discrete Shipping • Private Packaging • Safe Delivery</div>
-</div>
-
-<header>
-<a href="#" class="brand-logo">
-<i class="fa-solid fa-bag-shopping brand-icon"></i>
-<div class="brand-text">
-<h1>NISI BAZAR</h1>
-<p>PRIVATE • DISCREET • TRUSTED</p>
-</div>
-</a>
-<div class="header-right">
-<button class="btn-review-trigger" onclick="openReviewsModal('all')">
-<i class="fa-solid fa-star"></i> Reviews
-</button>
-<div class="cart-trigger" onclick="openModal('cartModal')">
-<i class="fa-solid fa-cart-shopping"></i>
-<span class="cart-count" id="cartCount">0</span>
-</div>
-</div>
-</header>
-
-<div class="section-header">
-<i class="fa-solid fa-fire"></i>
-<h2>Featured Products</h2>
-</div>
-
-<main class="products-container">
-
-<!-- PRODUCT 1 -->
-<div class="product-card">
-<div class="img-container">
-<img src="https://i.ibb.co.com/rKMR8H4W/Gemini-Generated-Image-hmnc5fhmnc5fhmnc-clean.png" alt="Premium Eagle Pocket Knife" class="product-img">
-<div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-</div>
-<div class="product-title">Premium Eagle Pocket Knife</div>
-<div class="price-row">
-<span class="price">$6.99</span>
-<span class="old-price">$10.99</span>
-</div>
-<div class="meta-row">
-<span>Sold: 143</span>
-<span class="rating"><i class="fa-solid fa-star"></i> 4.8</span>
-</div>
-<div class="card-actions">
-<button class="btn-action" onclick="openModal('infoModal')">Info</button>
-<button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-<button class="btn-action" onclick="openReviewsModal(1)">Review</button>
-</div>
-<button class="btn-add-cart" onclick="addToCart('Premium Eagle Pocket Knife', 6.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-</div>
-
-<!-- PRODUCT 2 -->
-<div class="product-card">
-<div class="img-container">
-<img src="https://via.placeholder.com/300x200" alt="Product 2" class="product-img">
-<div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-</div>
-<div class="product-title">Product Name 2</div>
-<div class="price-row">
-<span class="price">$9.99</span>
-<span class="old-price">$15.00</span>
-</div>
-<div class="meta-row">
-<span>Sold: 50</span>
-<span class="rating"><i class="fa-solid fa-star"></i> 4.5</span>
-</div>
-<div class="card-actions">
-<button class="btn-action" onclick="openModal('infoModal')">Info</button>
-<button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-<button class="btn-action" onclick="openReviewsModal(2)">Review</button>
-</div>
-<button class="btn-add-cart" onclick="addToCart('Product Name 2', 9.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-</div>
-
-<!-- PRODUCT 3 -->
-<div class="product-card">
-<div class="img-container">
-<img src="https://via.placeholder.com/300x200" alt="Product 3" class="product-img">
-<div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-</div>
-<div class="product-title">Product Name 3</div>
-<div class="price-row">
-<span class="price">$12.99</span>
-<span class="old-price">$18.00</span>
-</div>
-<div class="meta-row">
-<span>Sold: 30</span>
-<span class="rating"><i class="fa-solid fa-star"></i> 4.7</span>
-</div>
-<div class="card-actions">
-<button class="btn-action" onclick="openModal('infoModal')">Info</button>
-<button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-<button class="btn-action" onclick="openReviewsModal(3)">Review</button>
-</div>
-<button class="btn-add-cart" onclick="addToCart('Product Name 3', 12.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-</div>
-
-<!-- PRODUCT 4 -->
-<div class="product-card">
-<div class="img-container">
-<img src="https://via.placeholder.com/300x200" alt="Product 4" class="product-img">
-<div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-</div>
-<div class="product-title">Product Name 4</div>
-<div class="price-row">
-<span class="price">$15.00</span>
-<span class="old-price">$22.00</span>
-</div>
-<div class="meta-row">
-<span>Sold: 80</span>
-<span class="rating"><i class="fa-solid fa-star"></i> 4.9</span>
-</div>
-<div class="card-actions">
-<button class="btn-action" onclick="openModal('infoModal')">Info</button>
-<button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-<button class="btn-action" onclick="openReviewsModal(4)">Review</button>
-</div>
-<button class="btn-add-cart" onclick="addToCart('Product Name 4', 15.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-</div>
-
-<!-- PRODUCT 5 -->
-<div class="product-card">
-<div class="img-container">
-<img src="https://via.placeholder.com/300x200" alt="Product 5" class="product-img">
-<div class="video-tag" onclick="openModal('videoModal')"><i class="fa-solid fa-play"></i> Video</div>
-</div>
-<div class="product-title">Product Name 5</div>
-<div class="price-row">
-<span class="price">$8.00</span>
-<span class="old-price">$12.00</span>
-</div>
-<div class="meta-row">
-<span>Sold: 65</span>
-<span class="rating"><i class="fa-solid fa-star"></i> 4.6</span>
-</div>
-<div class="card-actions">
-<button class="btn-action" onclick="openModal('infoModal')">Info</button>
-<button class="btn-action" onclick="openModal('chatModal')">Chat</button>
-<button class="btn-action" onclick="openReviewsModal(5)">Review</button>
-</div>
-<button class="btn-add-cart" onclick="addToCart('Product Name 5', 8.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-</div>
-
-<!-- PRODUCT 6 TO 8 -->
-<div class="product-card">
-<div class="img-container"><img src="https://via.placeholder.com/300x200" class="product-img"></div>
-<div class="product-title">Product Name 6</div>
-<div class="price-row"><span class="price">$11.50</span></div>
-<button class="btn-add-cart" onclick="addToCart('Product Name 6', 11.50)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-</div>
-
-<div class="product-card">
-<div class="img-container"><img src="https://via.placeholder.com/300x200" class="product-img"></div>
-<div class="product-title">Product Name 7</div>
-<div class="price-row"><span class="price">$14.00</span></div>
-<button class="btn-add-cart" onclick="addToCart('Product Name 7', 14.00)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-</div>
-
-<div class="product-card">
-<div class="img-container"><img src="https://via.placeholder.com/300x200" class="product-img"></div>
-<div class="product-title">Product Name 8</div>
-<div class="price-row"><span class="price">$19.99</span></div>
-<button class="btn-add-cart" onclick="addToCart('Product Name 8', 19.99)"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-</div>
-
-</main>
-
-<!-- Bottom Floating Bar -->
-<div class="bottom-bar" onclick="openModal('cartModal')">
-<div class="cart-summary">
-<i class="fa-solid fa-basket-shopping"></i>
-<span>View Cart / Order</span>
-</div>
-<div class="total-price" id="totalPrice">$0.00</div>
-</div>
-
-<!-- MODALS -->
-
-<!-- CART & CHECKOUT MODAL -->
-<div class="modal" id="cartModal">
-<div class="modal-content">
-<span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
-<div class="modal-title"><i class="fa-solid fa-cart-shopping"></i> Complete Your Order</div>
-
-<div id="cartItemsList" style="font-size: 13px; background: #0b0710; padding: 10px; border-radius: 8px; margin-bottom: 12px;">
-No items in cart yet.
-</div>
-
-<!-- Checkout Form -->
-<form class="checkout-form" onsubmit="confirmOrder(event)">
-<div class="form-group">
-<label><i class="fa-solid fa-user"></i> Your Name *</label>
-<input type="text" placeholder="Enter full name" required>
-</div>
-<div class="form-group">
-<label><i class="fa-solid fa-phone"></i> Mobile Number *</label>
-<input type="tel" placeholder="017XXXXXXXX" required>
-</div>
-<div class="form-group">
-<label><i class="fa-solid fa-location-dot"></i> Full Address *</label>
-<input type="text" placeholder="House/Village, Thana, District" required>
-</div>
-<div class="form-group">
-<label><i class="fa-solid fa-truck"></i> Delivery Area</label>
-<select>
-<option>Inside Dhaka ($2.00)</option>
-<option>Outside Dhaka ($4.00)</option>
-</select>
-</div>
-<button type="submit" class="btn-add-cart" style="padding: 12px; margin-top: 5px;">
-<i class="fa-solid fa-check-circle"></i> Confirm Cash on Delivery Order
-</button>
-</form>
-</div>
-</div>
-
-<!-- REVIEWS MODAL -->
-<div class="modal" id="reviewsModal">
-<div class="modal-content">
-<span class="close-modal" onclick="closeModal('reviewsModal')">&times;</span>
-<div class="modal-title"><i class="fa-solid fa-star"></i> Customer Reviews (100% Real)</div>
-
-<div id="reviewCardsContainer">
-<!-- Dynamic Reviews Will Render Here -->
-</div>
-</div>
-</div>
-
-<!-- OTHER MODALS -->
-<div class="modal" id="infoModal">
-<div class="modal-content">
-<span class="close-modal" onclick="closeModal('infoModal')">&times;</span>
-<div class="modal-title"><i class="fa-solid fa-circle-info"></i> Product Info</div>
-<p style="font-size: 13px; color: var(--text-muted);">High quality items with 100% discrete and private packaging.</p>
-</div>
-</div>
-
-<div class="modal" id="chatModal">
-<div class="modal-content">
-<span class="close-modal" onclick="closeModal('chatModal')">&times;</span>
-<div class="modal-title"><i class="fa-solid fa-comments"></i> Customer Support</div>
-<button class="btn-add-cart" onclick="window.open('https://wa.me/', '_blank')"><i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp</button>
-</div>
-</div>
-
-<div class="modal" id="videoModal">
-<div class="modal-content">
-<span class="close-modal" onclick="closeModal('videoModal')">&times;</span>
-<div class="modal-title"><i class="fa-solid fa-play"></i> Product Video</div>
-<p style="font-size: 13px; color: var(--text-muted);">Video preview coming soon.</p>
-</div>
-</div>
-
-<script>
-let cart = [];
-let total = 0;
-
-// Review Database linked to Product ID
-const reviewsData = [
-{
-productId: 1, // Premium Eagle Pocket Knife Reviews
-reviews: [
-{
-name: "Sabbir Hossain",
-avatar: "S",
-avatarBg: "#ff007f",
-rating: "★★★★★",
-comment: "ভাই চাকুটা জাস্ট অসাম! এক হাতেই ওপেন করা যায়, ব্লেড অনেক শ ধারালো আর ওয়েটটাও হাতে একদম পারফেক্ট লাগে। থ্যাঙ্কস নিশি বাজার!",
-images: ["https://i.ibb.co.com/Y4pGht2G/Screenshot-2026-08-08-015709.png"],
-date: "1 day ago"
-},
-{
-name: "Imtiaz Ahmed",
-avatar: "I",
-avatarBg: "#00b4d8",
-rating: "★★★★★",
-comment: "প্যাকেজিং এত গোপনীয় ছিল যে পার্সেল নেওয়ার সময় কেউ বুঝতেই পারেনি ভেতরে কি আছে। চাকুটার ডিজাইন একদম রিয়েল ছবিটার মতোই প্রিমিয়াম।",
-images: [
-"https://i.ibb.co.com/9kK5bCD8/Screenshot-2026-08-08-015949.png",
-"https://i.ibb.co.com/GQdjWbF0/Screenshot-2026-08-08-020006.png"
-],
-date: "3 days ago"
-},
-{
-name: "Tanvir Hasan",
-avatar: "T",
-avatarBg: "#7209b7",
-rating: "★★★★★",
-comment: "খুবই ফাস্ট ডেলিভারি পাইছি। প্রোডাক্ট মেটাল কোয়ালিটি অনেক শক্তপোক্ত, পকেটে ক্যারি করাও সহজ। ১০০% রিকমেন্ডেড!",
-images: ["https://i.ibb.co.com/QjM2p5J7/Screenshot-2026-08-08-020253.png"],
-date: "5 days ago"
-}
-]
-},
-{
-productId: 2,
-reviews: [
-{
-name: "Mahbub Hasan",
-avatar: "M",
-avatarBg: "#38b000",
-rating: "★★★★☆",
-comment: "দাম হিসেবে জিনিস অনেক প্রিমিয়াম। সার্ভিস ভালো ছিল।",
-images: [],
-date: "1 week ago"
-}
-]
-}
-];
-
-function openModal(id) { document.getElementById(id).classList.add('active'); }
-function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
-function openReviewsModal(productId) {
-const container = document.getElementById('reviewCardsContainer');
-container.innerHTML = '';
-
-let listToRender = [];
-
-if (productId === 'all') {
-// Collect all reviews from all products
-reviewsData.forEach(p => listToRender.push(...p.reviews));
-} else {
-// Filter reviews for specific product
-const prodReviews = reviewsData.find(p => p.productId === productId);
-if (prodReviews) {
-listToRender = prodReviews.reviews;
-}
-}
-
-if (listToRender.length === 0) {
-container.innerHTML = '<p style="font-size:12px; color:var(--text-muted); text-align:center;">No reviews yet for this product.</p>';
-} else {
-listToRender.forEach(rev => {
-let imgsHtml = '';
-if (rev.images && rev.images.length > 0) {
-imgsHtml = `<div class="review-images-grid">
-${rev.images.map(imgUrl => `<img src="${imgUrl}" class="review-img" alt="Customer Review Pic">`).join('')}
-</div>`;
-}
-
-container.innerHTML += `
-<div class="review-card">
-<div class="review-user">
-<div class="user-info">
-<div class="user-avatar" style="background:${rev.avatarBg}">${rev.avatar}</div>
-<div>
-<div class="user-name">${rev.name}</div>
-<div class="verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Buyer</div>
-</div>
-</div>
-<div class="review-stars">${rev.rating}</div>
-</div>
-<p class="review-comment">${rev.comment}</p>
-${imgsHtml}
-<div class="review-date">${rev.date}</div>
-</div>
-`;
-});
-}
-
-openModal('reviewsModal');
-}
-
-function addToCart(name, price) {
-cart.push({ name, price });
-total += price;
-updateCartUI();
-openModal('cartModal');
-}
-
-function updateCartUI() {
-document.getElementById('cartCount').innerText = cart.length;
-document.getElementById('totalPrice').innerText = '$' + total.toFixed(2);
-let cartList = document.getElementById('cartItemsList');
-if (cart.length === 0) {
-cartList.innerHTML = 'No items selected yet.';
-} else {
-cartList.innerHTML = cart.map(item => `
-<div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-<span>${item.name}</span>
-<span style="color:var(--accent); font-weight:bold;">$${item.price}</span>
-</div>
-`).join('');
-}
-}
-
-function confirmOrder(event) {
-event.preventDefault();
-alert('Order Placed Successfully! We will contact you shortly for confirmation.');
-cart = [];
-total = 0;
-updateCartUI();
-closeModal('cartModal');
-}
-</script>
-
-</body>
-</html>
+# Keep Bot Running continuously
+if __name__ == "__main__":
+    bot.infinity_polling(timeout=60, long_polling_timeout=30)
